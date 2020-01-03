@@ -5,24 +5,51 @@
         <v-flex xs12 sm12>  
           <#include "menu_top.ftl">
         </v-flex>
-        <v-flex xs12 sm12 class="text-xs-center mb-3" v-if="!detailPage && !detailRegistPage && stageFilterView !== 'tra_cuu_giay_phep'">
-          <v-flex xs12 sm3>
-            
-          </v-flex>
-          <v-flex xs12 sm6 style="display: inline-flex; ">
-            <v-text-field
-            placeholder="Tìm kiếm theo mã hồ sơ/ tên thủ tục"
-            v-model="keywordsSearch"
-            style="width : 350px;"
-            @keyup.enter="searchKeyWord"
-            clearable
-            ></v-text-field>
-            <v-btn small :disabled="loadingDanhSachHoSoTable" class="mt-3" color="primary" @click.native="searchKeyWord">Tìm kiếm</v-btn>
-            <v-btn small :disabled="loadingDanhSachHoSoTable" class="mt-3" color="primary" @click.native="dialogSearch = !dialogSearch">Tìm kiếm nâng cao</v-btn>
-          </v-flex>
-          <v-flex xs12 sm3>
-            
-          </v-flex>
+        <v-flex xs12 sm12 class="text-xs-center mb-3" v-if="!detailPage && !detailRegistPage && stageFilterView !== 'tra_cuu_giay_phep' && stageFilterView !== 'thong_ke' && stageFilterView !== 'bao_cao'">
+          <v-layout row wrap>
+            <v-flex xs12 sm1>
+
+            </v-flex>
+            <v-flex xs12 sm10 style="display: inline-flex; ">
+              <v-text-field
+              placeholder="Tìm kiếm theo mã hồ sơ/ tên thủ tục"
+              v-model="keywordsSearch"
+              style="width : 350px;"
+              @keyup.enter="searchKeyWord"
+              clearable
+              ></v-text-field>
+              <v-select
+              :items="govAgencysItemsMain"
+              v-model="govAgencySearch2"
+              item-text="itemName"
+              style="max-width: 305px; margin-left: 20px;"
+              item-value="itemCode"
+              v-if="govAgencysItemsMain.length >= 2"
+              placeholder="Chọn cơ quan thực hiện"
+              clearable
+              ></v-select>
+              <v-select
+              :items="yearItems"
+              v-model="yearSearch"
+              item-text="text"
+              style="margin-left: 20px; max-width: 120px;"
+              item-value="value"
+              placeholder="Chọn năm"
+              clearable
+              ></v-select>
+              <v-btn small :disabled="loadingDanhSachHoSoTable" class="mt-3" color="primary" @click.native="searchKeyWord">Tìm kiếm</v-btn>
+              <v-btn small :disabled="loadingDanhSachHoSoTable" class="mt-3" color="primary" @click.native="dialogSearch = !dialogSearch">Tìm kiếm nâng cao</v-btn>
+            </v-flex>
+            <v-flex xs12 sm1>
+
+            </v-flex>
+            <!-- <v-flex xs12 sm3>
+            </v-flex>
+            <v-flex xs12 sm6 style="display: inline-flex;">
+            </v-flex>
+            <v-flex xs12 sm3>
+            </v-flex> -->
+          </v-layout>
         </v-flex>
         <v-flex xs12 sm12>
           <v-dialog
@@ -69,6 +96,28 @@
                     :close-on-content-click="false"
                     v-model="startDateMenu"
                     :nudge-right="40"
+                    :return-value.sync="date"
+                    lazy
+                    transition="scale-transition"
+                    offset-y
+                    full-width
+                    max-width="290px"
+                    min-width="290px"
+                    >
+                    <v-text-field
+                    slot="activator"
+                    v-model="startDate"
+                    prepend-icon="event"
+                    clearable
+                    label="Từ ngày"
+                    ></v-text-field>
+                    <v-date-picker v-model="dateStartDate" @input="parseStartDate()"></v-date-picker>
+                  </v-menu>
+                    <!-- <v-menu
+                    ref="startDateMenu"
+                    :close-on-content-click="false"
+                    v-model="startDateMenu"
+                    :nudge-right="40"
                     lazy
                     transition="scale-transition"
                     offset-y
@@ -85,10 +134,33 @@
                     clearable
                     ></v-text-field>
                     <v-date-picker v-model="startDate" no-title @input="startDateMenu = false"></v-date-picker>
-                  </v-menu>
+                  </v-menu> -->
                 </v-flex>
                 <v-flex xs12 sm6 class="pl-3">
                   <v-menu
+                    ref="endDateMenu"
+                    :close-on-content-click="false"
+                    v-model="endDateMenu"
+                    :nudge-right="40"
+                    :return-value.sync="date"
+                    lazy
+                    transition="scale-transition"
+                    offset-y
+                    full-width
+                    max-width="290px"
+                    min-width="290px"
+                    >
+                    <v-text-field
+                    slot="activator"
+                    v-model="endDate"
+                    prepend-icon="event"
+                    label="Đến ngày"
+                    clearable
+                    ></v-text-field>
+                    <v-date-picker v-model="dateEndDate" @input="parseEndDate()"></v-date-picker>
+                  </v-menu>
+
+                  <!-- <v-menu
                   ref="endDateMenu"
                   :close-on-content-click="false"
                   v-model="endDateMenu"
@@ -109,7 +181,7 @@
                   clearable
                   ></v-text-field>
                   <v-date-picker v-model="endDate" no-title @input="endDateMenu = false"></v-date-picker>
-                </v-menu>
+                </v-menu> -->
               </v-flex>
               <v-flex xs12 sm6 class="pl-4">
                 <v-select
@@ -175,30 +247,8 @@
                   </v-toolbar-items>
                 </v-toolbar>
               </v-card-title>
-              <#-- <v-toolbar dark color="primary" height="40">
-              <div class="text-bold">File tài liệu</div>
-                <v-spacer></v-spacer>
-                <v-toolbar-items>
-                  <v-btn icon dark @click.native="dialogViewFile = false">
-                    <v-icon>close</v-icon>
-                  </v-btn>
-                </v-toolbar-items>
-              </v-toolbar> -->
               <v-card-text class="pt-0 px-0" style="overflow: hidden;">
-                <#-- <v-carousel hide-delimiters v-if="listBlobSrc.length > 0" id="carouselFiles">
-                  <v-carousel-item v-for="(item, i) in listBlobSrc" v-bind:src="item" :key="i + 'file'">
-                    <div v-if="!item" class="text-xs-center">Tài liệu không tồn tại!</div>
-                    <object v-else id="dossierPDFView" data="" width="100%" height="100%">
-                      <iframe :src="item" width="100%" height="100%"> </iframe>
-                    </object>
-                  </v-carousel-item>
-                </v-carousel> -->
                 <div v-if="blobFileSrc !== '' && blobFileSrc !== null" style="/*display:  inline-flex; align-items: center;*/ width: 100%;">
-                  <#-- <div class="prevFile">
-                    <v-btn :disabled="indexFile === 0" class="mx-0 my-0" flat icon light v-on:click.native.prevent="prevFile()">
-                      <v-icon style="font-size: 25px;">arrow_back</v-icon>
-                    </v-btn>
-                  </div> -->
                   <div class="text-xs-center mb-2" style="width: 100%;">
                     <v-btn :disabled="indexFile === 0" color="primary" small @click="prevFile()"><v-icon style="font-size: 16px;">arrow_back</v-icon> Sau</v-btn>
                     <v-btn :disabled="indexFile === dossierFilesView.length - 1" color="primary" class="ml-2" small @click="nextFile()">Tiếp <v-icon style="font-size: 16px;">arrow_forward</v-icon></v-btn>
@@ -207,11 +257,6 @@
                     <iframe :src="blobFileSrc" style="width: 100%; padding-left: 0;" height="100%"> </iframe>
                   </object>
                   <div v-else style="height: 500px; width: 100%; text-align: center;">Tài liệu không có trong hệ thống</div>
-                  <#-- <div class="nextFile">
-                    <v-btn :disabled="indexFile === dossierFilesView.length - 1" flat icon light v-on:click.native.prevent="nextFile()">
-                      <v-icon style="font-size: 25px;">arrow_forward</v-icon>
-                    </v-btn>
-                  </div> -->
                 </div>
                 <div v-else class="text-xs-center center-all" style="height: 500px; width: 100%;">
                   <v-progress-circular indeterminate v-bind:size="100" color="purple"></v-progress-circular>
@@ -288,7 +333,7 @@
 
         <div class="layout wrap" style="padding: 0 15px;" v-else-if="stageFilterView === 'tra_cuu_giay_phep' && !detailTraCuuGiayPhepPage ">        
 		      <v-dialog v-if="popUpPrintTraCuu" v-model="dialog" fullscreen hide-overlay>
-		        <v-card>
+		        <v-card style="height: 2000px;">
 		          <v-toolbar dark color="primary">
 		            <v-btn icon dark @click.native="popUpPrintTraCuu = false">
 		              <v-icon>close</v-icon>
@@ -296,11 +341,11 @@
 		            <v-toolbar-title>In giấy phép</v-toolbar-title>
 		            <v-spacer></v-spacer>
 		            <v-toolbar-items>
-		              <v-btn dark flat v-on:click="printDeliverable()">
+		              <!-- <v-btn dark flat v-on:click="printDeliverable()">
 		                <v-icon>print</v-icon>
 		              	In ấn
-		              </v-btn>
-		              <v-btn dark flat @click.native="savePrintTemplate()">
+		              </v-btn> -->
+		              <v-btn id="btnSavePrintTemplate" dark flat @click.native="savePrintTemplate()">
 		                <v-icon>save</v-icon>
 		              	Lưu lại
 		              </v-btn>
@@ -320,9 +365,21 @@
 
         </div>
 
-        <div class="layout wrap" style="padding: 0 15px;" v-else-if="stageFilterView !== 'tra_cuu' && !detailPage && !detailRegistPage ">
+        <div class="layout wrap" style="padding: 0 15px;" v-else-if="stageFilterView !== 'tra_cuu' && stageFilterView !== 'thong_ke' && stageFilterView !== 'bao_cao' && !detailPage && !detailRegistPage ">
         
           <#include "danh_sach_hoso.ftl">
+
+        </div>
+
+        <div class="layout wrap" style="padding: 0 15px;" v-else-if="stageFilterView == 'thong_ke' && !detailPage && !detailRegistPage ">
+        
+          <#include "thongKe.ftl">
+
+        </div>
+
+        <div class="layout wrap" style="padding: 0 15px;" v-else-if="stageFilterView == 'bao_cao' && !detailPage && !detailRegistPage ">
+        
+          <#include "baoCao.ftl">
 
         </div>
       </v-slide-x-transition>

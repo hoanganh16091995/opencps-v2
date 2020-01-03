@@ -26,12 +26,14 @@
 	<#assign stateWindow = (Request.stateWindow)!>
 	<#assign employee = (Request.employee)!>
 	<#assign agencies = (Request.agencies)!>	
+	<#assign work = (Request.work)!>
 	<#assign isAdminUser = (Request.isAdminUser)!>
 	
 	<#assign RequestParameters = (Request.RequestParameters)!>
 	
 </#if>
-
+<!-- <script src="/combo?browserId=other&amp;minifierType=&amp;themeId=opencpsvue_WAR_opencpsvuetheme&amp;languageId=en_US&amp;b=7002&amp;frontend_web_dossier_portlet_FrontendWebDossierPortlet:%2Fjs%2FFileSaver.js&amp;t=1547588712000" type="text/javascript"></script> -->
+<script src='https://cdnjs.cloudflare.com/ajax/libs/TableExport/5.2.0/js/tableexport.js' type="text/javascript"></script>
 <script>
 	define._amd = define.amd;
 	define.amd = false;
@@ -39,7 +41,8 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/printThis/1.12.3/printThis.min.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-
+<link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 <script>
 	define.amd = define._amd;
 </script>

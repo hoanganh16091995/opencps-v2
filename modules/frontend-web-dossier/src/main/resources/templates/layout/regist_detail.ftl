@@ -15,7 +15,6 @@
                 <v-btn v-if="!navigationFilterview" v-on:click.native="navigationFilterview = !navigationFilterview" flat icon class="mr-3 my-0 hidden-sm-and-down"><v-icon>fullscreen_exit</v-icon></v-btn>
 
 			</div>
-	
 		</div>
 	
 	</div>

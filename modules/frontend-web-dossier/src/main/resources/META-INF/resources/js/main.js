@@ -1,4 +1,4 @@
-var funLoadVue = function(stateWindowParam, dossierIdParam, dossierPartNo, emailAddress, agencies, isAdminUser) {
+var funLoadVue = function(stateWindowParam, dossierIdParam, dossierPartNo, emailAddress, agencies, isAdminUser, workUnit) {
   const config = {
     headers: {
       'groupId': themeDisplay.getScopeGroupId()
@@ -314,11 +314,13 @@ var funLoadVue = function(stateWindowParam, dossierIdParam, dossierPartNo, email
       dialogSearch: false,
       keywordsSearch: '',
       startDate: null,
+      dateStartDate: '',
       startDateStr: '',
       startDateMenu: '',
       endDate: null,
       endDateStr: '',
       endDateMenu: '',
+      dateEndDate: '',
       referenceUid: '',
       dossierNo: '',
       serviceInfo: null,
@@ -353,6 +355,16 @@ var funLoadVue = function(stateWindowParam, dossierIdParam, dossierPartNo, email
           value: 'tab5',
           state: 'mot_cuu_dien_tu'
         }
+        // {
+        //   text: 'Thống kê',
+        //   value: 'tab6',
+        //   state: 'thong_ke'
+        // },
+        // {
+        //   text: 'Báo cáo',
+        //   value: 'tab7',
+        //   state: 'bao_cao'
+        // }
         // {
         // 	text: 'Quản lý phương tiện',
         // 	value: 'tab4',
@@ -427,7 +439,204 @@ var funLoadVue = function(stateWindowParam, dossierIdParam, dossierPartNo, email
       loadingMenuList: false,
       isAdminUser: false,
       showTemplatePrint: false,
-      listCodePH: []
+      listCodePH: [],
+
+      agencyList: [],
+      statusList: [],
+      fromDate: false,
+      toDate: false,
+      fromDateValue: '',
+      toDateValue: '',
+      date: null,
+      menuFromDate: false,
+      menuToDate: false,
+      tinhTrangXuLy: [],
+      headers: [
+        
+      ],
+      tableItems: [],
+      donViXuLy: [],
+      fromDatePicker: '',
+      toDatePicker: '',
+      govAgencysItemsMain: [],
+      govAgencySearch2: '',
+      yearItems: [
+        {
+          text: '----',
+          value: ''
+        },
+        {
+          text: 2018,
+          value: 2018
+        },
+        {
+          text: 2019,
+          value: 2019
+        },
+        {
+          text: 2020,
+          value: 2020
+        },
+        {
+          text: 2021,
+          value: 2021
+        },
+        {
+          text: 2022,
+          value: 2022
+        },
+        {
+          text: 2023,
+          value: 2023
+        },
+        {
+          text: 2024,
+          value: 2024
+        },
+        {
+          text: 2025,
+          value: 2025
+        },
+        {
+          text: 2026,
+          value: 2026
+        },
+        {
+          text: 2027,
+          value: 2027
+        },
+        {
+          text: 2028,
+          value: 2028
+        }
+      ],
+      yearSearch: 2020,
+      totalDSHS: 0,
+      loadingThongKe: false,
+      totalFooterTK: {},
+      _fallbacktoCSV: true,
+
+      activeTabBaoCao: '',
+      agencyListBC: [],
+      agencyBC: [],
+      statusListBC: [
+        {
+          itemCode: 'onReceiving',
+          itemName: 'Hồ sơ đã tiếp nhận trực tuyến'
+        },
+        {
+          itemCode: 'offReceiving',
+          itemName: 'Hồ sơ đã tiếp nhận trực tiếp'
+        },
+        {
+          itemCode: 'gateReceiving',
+          itemName: 'Hồ sơ tiếp nhận trên cổng dịch vụ công '
+        },
+        {
+          itemCode: 'processing',
+          itemName: 'Hồ sơ đã thẩm định'
+        },
+        {
+          itemCode: 'approving',
+          itemName: 'Hồ sơ đã phê duyệt'
+        },
+        {
+          itemCode: 'signing',
+          itemName: 'Hồ sơ đã ký duyệt'
+        },
+        {
+          itemCode: 'printing',
+          itemName: 'Hồ sơ đã in'
+        },
+        {
+          itemCode: 'receiving',
+          itemName: 'Tổng số hồ sơ đã tiếp nhận'
+        },
+        {
+          itemCode: 'done',
+          itemName: 'Tổng số hồ sơ đã giải quyết (đã trả kết quả)'
+        }
+      ],
+      statusBC: '',
+      fromDateBC: false,
+      fromDateValueBC: '',
+      fromDatePickerBC: '',
+      toDateBC: false,
+      toDateValueBC: '',
+      toDatePickerBC: '',
+      headersBC: [],
+      tableItemsBC: [],
+      agencyList2BC: [],
+      agency2BC: '',
+      groupList2: [
+        {
+          itemName: 'Việt - Lào',
+          itemCode: 'vietLao'
+        },
+        {
+          itemName: 'Việt - Cam',
+          itemCode: 'vietCam'
+        },
+        {
+          itemName: 'Việt - Trung',
+          itemCode: 'vietTrung'
+        },
+        {
+          itemName: 'Việt - Lào - Cam',
+          itemCode: 'vlc'
+        },
+        {
+          itemName: 'Nhóm vận tải đường bộ',
+          itemCode: 'gms'
+        }
+      ],
+      group2: '',
+      licenceGroupListBC: [],
+      licenceGroupBC: '',
+      licenceListBC: [],
+      licence: [],
+      fromDate2BC: false,
+      fromDateValue2BC: '',
+      fromDatePicker2BC: '',
+      toDate2BC: false,
+      toDateValue2BC: '',
+      toDatePicker2BC: '',
+      headersAllBC: [],
+      tableItemsAllBC: [],
+      groupListBC: [],
+      groupBC: '',
+      headers3BC: [],
+      tableItems3BC: [],
+      gateListBC: [],
+      gateBC: '',
+      fromDate4BC: false,
+      fromDateValue4BC: '',
+      fromDatePicker4BC: '',
+      toDate4BC: false,
+      toDateValue4BC: '',
+      toDatePicker4BC: '',
+      headers4: [],
+      tableItems4: [],
+      agencyList3BC: [],
+      agency3BC: [],
+      fromDate5BC: false,
+      fromDateValue5BC: '',
+      fromDatePicker5BC: '',
+      toDate5BC: false,
+      toDateValue5BC: '',
+      toDatePicker5BC: '',
+      headers5BC: [],
+      totalTableItemsBC: [],
+      loadingBaoCaoTab1: false,
+      loadingBaoCaoTab2: false,
+      loadingBaoCaoTab3: false,
+      loadingBaoCaoTab4: false,
+      loadingBaoCaoTab5: false,
+      baoCaoSrcTab1: '',
+      baoCaoSrcTab2: '',
+      baoCaoSrcTab5: '',
+      dataExportCSV: '',
+      stateBaoCaoView: 'bao_cao_tinh_trang_xu_ly_ho_so'
     },
     watch: {
       pageGiayPhepVanTaiQuocTeTable: {
@@ -515,6 +724,7 @@ var funLoadVue = function(stateWindowParam, dossierIdParam, dossierPartNo, email
             var vm = this;
             // console.log("item status",item);
             vm.indexListStatus = index;
+            vm.yearSearch = vm.getCurrentYear()
             vm.reloadCounter();
             vm.detailPage = false;
             vm.detailRegistPage = false;
@@ -544,10 +754,24 @@ var funLoadVue = function(stateWindowParam, dossierIdParam, dossierPartNo, email
             }
             vm.onScrollTop();
           },
+          getCurrentYear: function () {
+            var dateTmp = new Date()
+            return dateTmp.getFullYear() || 2020
+          },
           parseDate2: function(date) {
             if (!date) return null
             const [month, day, year] = date.split('/')
             return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`
+          },
+          parseStartDate () {
+            var vm = this;
+            vm.startDate = vm.parseDate(vm.dateStartDate);
+            vm.startDateMenu = false;
+          },
+          parseEndDate () {
+            var vm = this;
+            vm.endDate = vm.parseDate(vm.dateEndDate);
+            vm.endDateMenu = false;
           },
           loadListCodePh: function() {
             var vm = this;
@@ -556,13 +780,187 @@ var funLoadVue = function(stateWindowParam, dossierIdParam, dossierPartNo, email
               var serializable = response.data;
               vm.listCodePH = serializable.data;
             }).catch(function(error) {
-              // console.log(error);
+            });
+          },
+          loadListLoaiGP: function() {
+            var vm = this;
+            var url = '/o/rest/v2/temp/dictcollections/loai_giay_phep/dictitems';
+            axios.get(url, config).then(function(response) {
+              vm.licenceListBC = response.data.data;
+            }).catch(function(error) {
+            });
+          },
+          viewReport: function(){
+            var vm = this;
+            vm.loadingBaoCaoTab1 = true;
+            var agencyBC_tmp ='';
+            var statusBC_tmp = '';
+            if (!vm.agencyBC.length) {
+              agencyBC_tmp = vm.agencyList.map(function (value) {
+                return value.itemCode;
+              }).join(',');
+            } else {
+              agencyBC_tmp = vm.agencyBC.join(',')
+            }
+
+            if (!vm.statusBC.length) {
+              statusBC_tmp = vm.statusListBC.map(function (value) {
+                return value.itemCode;
+              }).join(',');
+            } else {
+              statusBC_tmp = vm.statusBC.join(',')
+            }
+
+            var d = new Date();
+            var curentDate = d.getDate() + "/" + (d.getMonth() + 1) + "/" + d.getFullYear();
+            const config_blob = {
+              headers: {
+                'groupId': themeDisplay.getScopeGroupId(),
+                'Content-Type': 'application/json'
+              },
+              params: {
+                agency: agencyBC_tmp,
+                from: vm.fromDateValueBC,
+                to: vm.toDateValueBC,
+                status: statusBC_tmp,
+                govAgencyName: workUnit,
+                signDate: curentDate
+              },
+              responseType: 'blob'
+            };
+
+            var url = '/o/rest/vr-app/baoCaoTinhTrangXuLyHoSo';
+            axios.get(url, config_blob).then(function(response) {
+              var url = window.URL.createObjectURL(response.data);
+              vm.loadingBaoCaoTab1 = false;
+              vm.baoCaoSrcTab1 = url;
+            }).catch(function(error) {
+              console.log(error);
+              vm.loadingBaoCaoTab1 = false;
+            });
+          },
+          changeTabBaoCao: function (data) {
+            var vm = this;
+            vm.stateBaoCaoView = data;
+          },
+          changeLoaiGP_BC: function (data) {
+            var vm = this;
+            console.log('data++++++++++', data);
+            var index = data.findIndex(function (item) {
+              return item === 'typeGPLV'
+            });
+            console.log('index++++++++++', index);
+            if (index !== -1) {
+              vm.$nextTick(() => {
+                vm.licence.push('typeA');
+                vm.licence.push('typeB');
+                vm.licence.push('typeC');
+                vm.licence.push('typeD');
+                vm.licence.push('typeE');
+                vm.licence.push('typeF');
+                vm.licence.push('typeG');
+                vm.licence.push('typeTM');
+                vm.licence.push('typePTM');
+              });
+            }
+            console.log('licence+++++++++', vm.licence);
+            vm.licence = vm.deduplicate(vm.licence);
+          },
+          deduplicate: function (arr) {
+            let isExist = (arr, x) => {
+              for(let i = 0; i < arr.length; i++) {
+                if (arr[i] === x) return true;
+              }
+              return false;
+            }
+
+            let ans = [];
+            arr.forEach(element => {
+              if(!isExist(ans, element)) ans.push(element);
+            });
+            return ans;
+          },
+          viewReport2: function () {
+            var vm = this;
+            vm.loadingBaoCaoTab2 = true;
+            var agency2BC_tmp ='';
+            if (!vm.agency2BC.length) {
+              agency2BC_tmp = vm.agencyList.map(function (value) {
+                return value.itemCode;
+              }).join(',');
+            } else {
+              agency2BC_tmp = vm.agency2BC.join(',')
+            }
+            var d = new Date();
+            var curentDate = d.getDate() + "/" + (d.getMonth() + 1) + "/" + d.getFullYear();
+            const config_blob = {
+              headers: {
+                'groupId': themeDisplay.getScopeGroupId(),
+                'Content-Type': 'application/json'
+              },
+              params: {
+                agency: agency2BC_tmp,
+                from: vm.fromDateValue2BC,
+                to: vm.toDateValue2BC,
+                nhomVanTai: vm.group2,
+                loaiGiayPhep: vm.licence.join(','),
+                govAgencyName: workUnit,
+                signDate: curentDate
+              },
+              responseType: 'blob'
+            };
+
+            var url = '/o/rest/vr-app/baoCaoCapPhep';
+            axios.get(url, config_blob).then(function(response) {
+              var url = window.URL.createObjectURL(response.data);
+              vm.baoCaoSrcTab2 = url;
+              vm.loadingBaoCaoTab2 = false;
+            }).catch(function(error) {
+              console.log(error);
+              vm.loadingBaoCaoTab2 = false;
+            });
+          },
+          viewReport5: function(){
+            var vm = this;
+            vm.loadingBaoCaoTab5 = true;
+            var agency3BC_tmp ='';
+            if (!vm.agency3BC.length) {
+              agency3BC_tmp = vm.agencyList.map(function (value) {
+                return value.itemCode;
+              }).join(',');
+            } else {
+              agency3BC_tmp = vm.agency3BC.join(',')
+            }
+            var d = new Date();
+            var curentDate = d.getDate() + "/" + (d.getMonth() + 1) + "/" + d.getFullYear();
+            const config_blob = {
+              headers: {
+                'groupId': themeDisplay.getScopeGroupId(),
+                'Content-Type': 'application/json'
+              },
+              params: {
+                agency: agency3BC_tmp,
+                from: vm.fromDateValue5BC,
+                to: vm.toDateValue5BC,
+                govAgencyName: workUnit,
+                signDate: curentDate
+              },
+              responseType: 'blob'
+            };
+
+            var url = '/o/rest/vr-app/thongKeTheoNam';
+            axios.get(url, config_blob).then(function(response) {
+              var url = window.URL.createObjectURL(response.data);
+              vm.baoCaoSrcTab5 = url;
+              vm.loadingBaoCaoTab5 = false;
+            }).catch(function(error) {
+              console.log(error);
+              vm.loadingBaoCaoTab5 = false;
             });
           },
           reloadCounter: function() {
             var vm = this;
             var url = '/o/rest/v2/statistics/dossiers/todo';
-            // console.log("Init load");
             vm.loadingMenuList = true;
             $.ajax({
               url: url,
@@ -580,8 +978,6 @@ var funLoadVue = function(stateWindowParam, dossierIdParam, dossierPartNo, email
                 var serializable = result;
                 var indexTree = -1;
                 var index = 0;
-                //// console.log("listgroupHoSoFilterItems=======FISRT",vm.listgroupHoSoFilterItems);
-                //// console.log("serializable=======",serializable.data);
                 for (var key in serializable.data) {
                   for (var i in vm.listgroupHoSoFilterItems) {
                     if (serializable.data[key].level === 0) {
@@ -606,7 +1002,6 @@ var funLoadVue = function(stateWindowParam, dossierIdParam, dossierPartNo, email
                   }
 
                 }
-                //// console.log("listgroupHoSoFilterItems=======LAST",vm.listgroupHoSoFilterItems);
                 vm.loadingMenuList = false;
               },
               error: function(result) {
@@ -614,6 +1009,650 @@ var funLoadVue = function(stateWindowParam, dossierIdParam, dossierPartNo, email
               }
             });
 
+          },
+          initPageThongKe: function () {
+            var vm = this;
+            vm.getAgency();
+            vm.getStatus();
+          },
+          likesAllAgencys: function () {
+            return this.donViXuLy.length === this.agencyList.length
+          },
+          likesSomeAgencys: function () {
+            return this.donViXuLy.length > 0 && !this.agencyList
+          },
+          iconAgencys: function () {
+            if (this.likesAllAgencys) return 'mdi-close-box'
+              if (this.likesSomeAgencys) return 'mdi-minus-box'
+                return 'mdi-checkbox-blank-outline'
+          },
+          getAgency: function () {
+            var vm = this
+            $.ajax({
+              url: '/o/rest/v2/temp/dictcollections/GOVERNMENT_AGENCY/dictitems?sort=sibling',
+              dataType: 'json',
+              type: 'GET',
+              async: false,
+              headers: {
+                'groupId': 55301
+              },
+              success: function (result) {
+                if (result.data) {
+                  var agencyAll = [];
+                  var agencyRole = agencies.split(',');
+                  //console.log('agencyRole+++++++', agencyRole);
+                  for (var i = 0; i < result.data.length; i++) {
+                    var indexTmp = agencyRole.findIndex(function (item) {
+                      return item === result.data[i].itemCode;
+                    })
+                    if (indexTmp !== -1) {
+                      agencyAll.push(result.data[i]);
+                    }
+                  }
+                  agencyAll.sort(function (a, b){
+                    if(a.itemName < b.itemName) { return 1; }
+                    if(a.itemName > b.itemName) { return -1; }
+                    return 0;
+                  });
+                  //console.log('agencyAll++++++++', agencyAll);
+                  // vm.agencyList = agencyAll;
+                  // agencyAll.splice(0, 0, {
+                  //   companyId: 0,
+                  //   createDate: "",
+                  //   dictCollectionId: 0,
+                  //   dictItemId: '',
+                  //   dictVersionId: 0,
+                  //   groupId: 0,
+                  //   issueStatus: 0,
+                  //   itemCode: "all",
+                  //   itemDescription: "",
+                  //   itemName: "Tất cả",
+                  //   level: 0,
+                  //   modifiedDate: "",
+                  //   parentItemId: 0,
+                  //   sibling: 0,
+                  //   status: 0,
+                  //   treeIndex: "",
+                  //   userId: 0
+                  // });
+                  vm.agencyList = agencyAll;
+                  vm.donViXuLy = agencyAll.map(function (value) {
+                    return value.itemCode;
+                  });
+                } else {
+                  vm.agencyList = [];
+                }
+              },
+              error: function (xhr) {
+                vm.agencyList = [];
+              }
+            })
+          },
+          getStatus: function () {
+            var vm = this
+            vm.tinhTrangXuLy = [];
+            vm.statusList = [
+              {
+                itemCode: 'processing',
+                itemName: 'HS đang xử lý',
+                normal: true
+              },
+              {
+                itemCode: 'done_0',
+                itemName: 'HS đã xử lý',
+                normal: false
+              },
+              {
+                itemCode: 'notprocessing',
+                itemName: 'HS chưa xử lý',
+                normal: false
+              }
+            ];
+            vm.tinhTrangXuLy = vm.statusList;
+          },
+          parseFromDateBCTab1: function () {
+            var vm = this;
+            vm.fromDateValueBC = vm.parseDate(vm.fromDatePickerBC);
+            vm.fromDateBC = false;
+          },
+          parseToDateBCTab1: function () {
+            var vm = this;
+            vm.toDateValueBC = vm.parseDate(vm.toDatePickerBC);
+            vm.toDateBC = false;
+          },
+          parseFromDateBCTab2: function () {
+            var vm = this;
+            vm.fromDateValue2BC = vm.parseDate(vm.fromDatePicker2BC);
+            vm.fromDate2BC = false;
+          },
+          parseToDateBCTab2: function () {
+            var vm = this;
+            vm.toDateValue2BC = vm.parseDate(vm.toDatePicker2BC);
+            vm.toDate2BC = false;
+          },
+          parseFromDateBCTab4: function () {
+            var vm = this;
+            vm.fromDateValue4BC = vm.parseDate(vm.fromDatePicker4BC);
+            vm.fromDate4BC = false;
+          },
+          parseToDateBCTab4: function () {
+            var vm = this;
+            vm.toDateValue4BC = vm.parseDate(vm.toDatePicker4BC);
+            vm.toDate4BC = false;
+          },
+          parseFromDateBCTab5: function () {
+            var vm = this;
+            vm.fromDateValue5BC = vm.parseDate(vm.fromDatePicker5BC);
+            vm.fromDate5BC = false;
+          },
+          parseToDateBCTab5: function () {
+            var vm = this;
+            vm.toDateValue5BC = vm.parseDate(vm.toDatePicker5BC);
+            vm.toDate5BC = false;
+          },
+          parseFromDate: function () {
+            var vm = this;
+            vm.fromDateValue = vm.parseDate(vm.fromDatePicker);
+            vm.fromDate = false;
+          },
+          parseToDate: function () {
+            var vm = this;
+            vm.toDateValue = vm.parseDate(vm.toDatePicker);
+            vm.toDate = false;
+          },
+          defaultDate: function () {
+            var vm = this;
+            var date = new Date();
+            var tuNgay = '1/' + (date.getMonth() + 1) + '/' + date.getFullYear();
+            var denNgay = date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
+            vm.fromDateValue = tuNgay;
+            vm.toDateValue = denNgay;
+            vm.fromDateValueBC = tuNgay;
+            vm.toDateValueBC = denNgay;
+            vm.fromDateValue2BC = tuNgay;
+            vm.toDateValue2BC = denNgay;
+            vm.fromDateValue5BC = tuNgay;
+            vm.toDateValue5BC = denNgay;
+          },
+          filter: function () {
+            var vm = this;
+            var size = vm.tinhTrangXuLy;
+            vm.loadDsThongKe();
+          },
+          toDsXuLyHoSo: function (item, govCode) {
+            var vm = this;
+            vm.detailRegistPage = false;
+            vm.detailPage = false;
+            vm.stageFilterView = 'danh_sach';
+            // vm.indexListStatus = index;
+            vm.statusParamFilter = item.dossierStatus;
+            vm.substatusParamFilter = item.dossierSubStatus;
+            vm.yearSearch = '';
+
+            vm.govAgencySearch2 = govCode;
+            vm.hoso_title_table = item.statusName;
+            vm.startDate = vm.fromDateValue;
+            vm.endDate = vm.toDateValue;
+            vm.statusFirst = '';
+            vm._initlistgroupHoSoFilter(false);
+            vm.onScrollTop();
+            vm.tabActive = 'tab2';
+          },
+          loadDsBaoCaoGP: function (clear) {
+            var vm = this;
+            vm.loadingBaoCao = true;
+            var url = "/o/rest/v2/statistics/dossiers";
+            if (!vm.donViXuLy.length) {
+              vm.donViXuLy = vm.agencyList.map(function (value) {
+                return value.itemCode;
+              });
+            }
+            var configThongKe = {
+              headers: {
+                groupId: themeDisplay.getScopeGroupId()
+              },
+              params: {
+                agency: vm.donViXuLy.join(','),
+                service: '',
+                from: vm.fromDateValue,
+                to: vm.toDateValue
+              }
+            }
+            axios.get(url, configThongKe).then(function(response) {
+              var serializable = response.data;
+              if (serializable.length) {
+                var dataTmp = serializable[0].data;
+                var dataResult = [];
+                var totalTmp = 0;
+                var countTotal = {};
+                for (var i = 0; i < serializable.length; i++) {
+                  var objTmp = {};
+                  var totalRow = 0;
+                  if (serializable[i].data.length) {
+                    var dataTmp = serializable[i].data;
+                    for (var j = 0; j < dataTmp.length; j++) {
+                      totalRow += dataTmp[j].count ? parseInt(dataTmp[j].count, 0) : 0;
+                      objTmp[dataTmp[j].type] = dataTmp[j].count ? parseInt(dataTmp[j].count, 0) : 0;
+                    }
+                  }
+                  objTmp['govAgencyCode'] = serializable[i].govAgencyCode;
+                  objTmp['govAgencyName'] = serializable[i].govAgencyName;
+                  objTmp['totalRow'] = totalRow;
+                  dataResult.push(objTmp);
+                }
+                var totalCol = 0;
+                for (var i = 0; i < serializable[0].data.length; i++) {
+                  for (var j = 0; j < serializable.length; j++) {
+                    totalCol += serializable[j].data[i].count ? parseInt(serializable[j].data[i].count, 0) : 0;
+                  }
+                  countTotal[serializable[0].data[i].type] = totalCol;
+                  totalCol = 0;
+                }
+                dataResult.push(countTotal);
+                console.log(dataResult);
+                // vm.tableItems = serializable;
+                // vm.loadingBaoCao = false;
+              }
+            }).catch(function(error) {
+              vm.loadingBaoCao = false;
+            });
+            if (vm.donViXuLy.length === vm.agencyList.length) {
+              vm.donViXuLy =  [];
+            }
+            if (clear) {
+              vm.donViXuLy =  [];
+              vm.tinhTrangXuLy = [];
+            }
+          },
+          loadDsBaoCao: function (clear) {
+            var vm = this;
+            vm.loadingBaoCao = true;
+            var url = "/o/rest/v2/statistics/dossiers";
+            var dossierStatus = [];
+            for (var i = 0; i < vm.tinhTrangXuLy.length; i++) {
+              if (vm.tinhTrangXuLy[i].normal) {
+                dossierStatus.push('processing_3');
+                dossierStatus.push('processing_5');
+                dossierStatus.push('processing_7');
+                dossierStatus.push('processing_1');
+                dossierStatus.push('processing_13');
+                dossierStatus.push('processing_14');
+                dossierStatus.push('processing_6');
+              } else if (!vm.tinhTrangXuLy[i].normal && vm.tinhTrangXuLy[i].itemCode === 'done_0') {
+                dossierStatus.push('ended_1');
+                dossierStatus.push('done');
+              } else {
+                dossierStatus.push('receiving_1');
+                dossierStatus.push('done_1');
+                dossierStatus.push('cancelled_1');
+              }
+            }
+            if (!vm.donViXuLy.length) {
+              vm.donViXuLy = vm.agencyList.map(function (value) {
+                return value.itemCode;
+              });
+            }
+            if (!dossierStatus.length) {
+              dossierStatus = ['processing_3', 'processing_5', 'processing_7', 'processing_1', 'processing_13', 'processing_14', 'processing_6', 'ended_1', 'done', 'receiving_1', 'done_1', 'cancelled_1'];
+            }
+            var configThongKe = {
+              headers: {
+                groupId: themeDisplay.getScopeGroupId()
+              },
+              params: {
+                agency: vm.donViXuLy.join(','),
+                service: '',
+                dossierSubStatus: dossierStatus.join(','),
+                from: vm.fromDateValue,
+                to: vm.toDateValue
+              }
+            }
+            vm.headers = [];
+            axios.get(url, configThongKe).then(function(response) {
+              var serializable = response.data;
+              if (serializable.length) {
+                var dataTmp = serializable[0].data;
+                var dataResult = [];
+                var totalTmp = 0;
+                var countTotal = {};
+                for (var i = 0; i < serializable.length; i++) {
+                  var objTmp = {};
+                  if (serializable[i].data.length) {
+                    var dataTmp = serializable[i].data;
+                    for (var j = 0; j < dataTmp.length; j++) {
+                      objTmp[dataTmp[j].dossierSubStatus] = dataTmp[j].count ? parseInt(dataTmp[j].count, 0) : 0;
+                    }
+                  }
+                  objTmp['govAgencyCode'] = serializable[i].govAgencyCode;
+                  dataResult.push(objTmp);
+                }
+                var totalTmp = 0;
+                for (var i = 0; i < serializable[0].data.length; i++) {
+                  for (var j = 0; j < serializable.length; j++) {
+                    totalTmp += serializable[j].data[i].count ? parseInt(serializable[j].data[i].count, 0) : 0;
+                  }
+                  countTotal[serializable[0].data[i].dossierSubStatus] = totalTmp;
+                  totalTmp = 0;
+                }
+                dataResult.push(countTotal);
+                //console.log(dataResult);
+                // vm.tableItems = serializable;
+                // vm.loadingBaoCao = false;
+              }
+            }).catch(function(error) {
+              vm.loadingBaoCao = false;
+            });
+            if (vm.donViXuLy.length === vm.agencyList.length) {
+              vm.donViXuLy =  [];
+            }
+            if (clear) {
+              vm.donViXuLy =  [];
+              vm.tinhTrangXuLy = [];
+            }
+          },
+          checkVisibleTotal: function (item) {
+            var vm = this;
+            if (item) {
+              var index = vm.tinhTrangXuLy.findIndex(function (value) {
+                return value.itemCode === item;
+              })
+              if (index !== -1) {
+                return true;
+              }
+            }
+            return false;
+          },
+          loadDsThongKe: function (clear) {
+            var vm = this;
+            vm.loadingThongKe = true;
+            var url = "/o/rest/v2/statistics/dossiers";
+            var dossierStatus = [];
+            for (var i = 0; i < vm.tinhTrangXuLy.length; i++) {
+              if (vm.tinhTrangXuLy[i].normal) {
+                dossierStatus.push('processing_3');
+                dossierStatus.push('processing_5');
+                dossierStatus.push('processing_7');
+                dossierStatus.push('processing_1');
+                dossierStatus.push('processing_13');
+                dossierStatus.push('processing_14');
+                dossierStatus.push('processing_6');
+              } else if (!vm.tinhTrangXuLy[i].normal && vm.tinhTrangXuLy[i].itemCode === 'done_0') {
+                dossierStatus.push('ended_1');
+                dossierStatus.push('done_3');
+              } else {
+                dossierStatus.push('receiving_1');
+                dossierStatus.push('done_1');
+                dossierStatus.push('cancelled_1');
+              }
+            }
+            if (!vm.donViXuLy.length) {
+              vm.donViXuLy = vm.agencyList.map(function (value) {
+                return value.itemCode;
+              });
+            }
+            if (!dossierStatus.length) {
+              dossierStatus = ['processing_3', 'processing_5', 'processing_7', 'processing_1', 'processing_13', 'processing_14', 'processing_6', 'ended_1', 'done_3', 'receiving_1', 'done_1', 'cancelled_1'];
+            }
+            var agencyTmp = '';
+            agencyTmp = vm.donViXuLy.filter(function (item) {
+              return item !== 'all'
+            }).join(',');
+            console.log('agencyTmp++++++', agencyTmp);
+            var configThongKe = {
+              headers: {
+                groupId: themeDisplay.getScopeGroupId()
+              },
+              params: {
+                agency: agencyTmp,
+                service: '',
+                dossierSubStatus: dossierStatus.join(','),
+                from: vm.fromDateValue,
+                to: vm.toDateValue
+              }
+            }
+            vm.headers = [];
+            axios.get(url, configThongKe).then(function(response) {
+              var serializable = response.data;
+              serializable = serializable.sort(function (a, b){
+                if(a.govAgencyName.charAt(0) < b.govAgencyName.charAt(0)) { return 1; }
+                if(a.govAgencyName.charAt(0) > b.govAgencyName.charAt(0)) { return -1; }
+                return 0;
+              });
+
+              vm.headers.push({ text: 'STT', value: 'sequenceNumber', sortable: false, align: 'center' });
+              vm.headers.push({ text: 'Đơn vị xử lý hồ sơ', value: 'name', sortable: false, align: 'center' });
+              if (serializable.length) {
+                var dataTmp = serializable[0].data;
+                for (var i = 0; i < dataTmp.length; i++) {
+                  vm.headers.push({ text: dataTmp[i].statusName, value: dataTmp[i].dossierSubStatus, sortable: false, align: 'center' });
+                }
+
+                // add header total--------------------------------------------
+                var indexHeaderPro = vm.headers.findIndex(function (value) {
+                  return value.value === 'totalProcessing'
+                })
+                var indexHeaderDone = vm.headers.findIndex(function (value) {
+                  return value.value === 'totalDone'
+                })
+                var indexHeaderReci = vm.headers.findIndex(function (value) {
+                  return value.value === 'totalReceiving'
+                })
+                if (!vm.tinhTrangXuLy.length) {
+                  if (indexHeaderPro == -1) {
+                    vm.headers.push({ text: 'Tổng số hồ sơ đang xử lý', value: 'totalProcessing', sortable: false, align: 'center' });
+                  }
+
+                  if (indexHeaderDone == -1) {
+                    vm.headers.push({ text: 'Tổng số hồ đã xử lý', value: 'totalDone', sortable: false, align: 'center' });
+                  }
+
+                  if (indexHeaderReci == -1) {
+                    vm.headers.push({ text: 'Tổng số hồ chưa xử lý', value: 'totalReceiving', sortable: false, align: 'center' });
+                  }
+                } else {
+                  if (vm.checkVisibleTotal('processing')) {
+                    if (indexHeaderPro == -1) {
+                      vm.headers.push({ text: 'Tổng số hồ sơ đang xử lý', value: 'totalProcessing', sortable: false, align: 'center' });
+                    } else {
+                      vm.headers.splice(indexHeaderPro, 1);
+                    }
+                  }
+                  if (vm.checkVisibleTotal('done_0')) {
+                    if (indexHeaderDone == -1) {
+                      vm.headers.push({ text: 'Tổng số hồ đã xử lý', value: 'totalDone', sortable: false, align: 'center' });
+                    } else {
+                      vm.headers.splice(indexHeaderDone, 1);
+                    }
+                  }
+                  if (vm.checkVisibleTotal('notprocessing')) {
+                    if (indexHeaderReci == -1) {
+                      vm.headers.push({ text: 'Tổng số hồ chưa xử lý', value: 'totalReceiving', sortable: false, align: 'center' });
+                    } else {
+                      vm.headers.splice(indexHeaderReci, 1);
+                    }
+                  }
+                }
+                //---------------------------------------------------------
+                for (var i = 0; i < serializable.length; i++) {
+                  var totalDangxl = 0;
+                  var totalDaxl = 0;
+                  var totalChuaxl = 0;
+                  for (var j = 0; j < serializable[i].data.length; j++) {
+                    if (serializable[i].data[j].dossierSubStatus === 'processing_3' || 
+                      serializable[i].data[j].dossierSubStatus === 'processing_5' ||
+                      serializable[i].data[j].dossierSubStatus === 'processing_7' ||
+                      serializable[i].data[j].dossierSubStatus === 'processing_1' ||
+                      serializable[i].data[j].dossierSubStatus === 'processing_13' ||
+                      serializable[i].data[j].dossierSubStatus === 'processing_14' ||
+                      serializable[i].data[j].dossierSubStatus === 'processing_6'
+                      ) {
+                      totalDangxl += parseInt(serializable[i].data[j].count, 0);
+                    }
+
+                    if (serializable[i].data[j].dossierSubStatus === 'ended_1' ||
+                      serializable[i].data[j].dossierSubStatus === 'done') {
+                      totalDaxl += parseInt(serializable[i].data[j].count, 0);
+                    }
+
+                    if (serializable[i].data[j].dossierSubStatus === 'receiving_1' ||
+                      serializable[i].data[j].dossierSubStatus === 'done_1' ||
+                      serializable[i].data[j].dossierSubStatus === 'cancelled_1') {
+                      totalChuaxl += parseInt(serializable[i].data[j].count, 0);
+                    }
+                  }
+                  serializable[i]['totalDangxl'] = totalDangxl;
+                  serializable[i]['totalDaxl'] = totalDaxl;
+                  serializable[i]['totalChuaxl'] = totalChuaxl;
+                }
+                var countTotal = {};
+                var totalCol = 0;
+                for (var i = 0; i < serializable[0].data.length; i++) {
+                  for (var j = 0; j < serializable.length; j++) {
+                    totalCol += serializable[j].data[i].count ? parseInt(serializable[j].data[i].count, 0) : 0;
+                  }
+                  countTotal[serializable[0].data[i].dossierSubStatus] = totalCol;
+                  totalCol = 0;
+                }
+                var ttProcessing = 0;
+                serializable.forEach(function (value) {
+                  ttProcessing += value.totalDangxl;
+                });
+
+                var ttDone = 0;
+                serializable.forEach(function (value) {
+                  ttDone += value.totalDaxl;
+                });
+
+                var ttChuaXL = 0;
+                serializable.forEach(function (value) {
+                  ttChuaXL += value.totalChuaxl;
+                });
+
+                if (!vm.tinhTrangXuLy.length) {
+                  countTotal['ttProcessing'] = ttProcessing;
+                  countTotal['ttDone'] = ttDone;
+                  countTotal['ttChuaXL'] = ttChuaXL;
+                } else {
+                  if (vm.checkVisibleTotal('processing')) {
+                    countTotal['ttProcessing'] = ttProcessing;
+                  }
+                  if (vm.checkVisibleTotal('done_0')) {
+                    countTotal['ttDone'] = ttDone;
+                  }
+                  if (vm.checkVisibleTotal('notprocessing')) {
+                    countTotal['ttChuaXL'] = ttChuaXL;
+                  }
+                }                
+                vm.totalFooterTK = countTotal;
+                console.log('serializable+++++Thống kê++++++++++', serializable);
+                // console.log('data_csv+++++++++++++++', vm.createExportTable(serializable));
+                vm.dataExportCSV = vm.createExportTable(serializable);
+                vm.tableItems = serializable;
+                vm.loadingThongKe = false;
+              }
+            }).catch(function(error) {
+              console.log(error);
+              vm.headers.push({ text: 'STT', value: 'sequenceNumber', sortable: false, align: 'center' });
+              vm.headers.push({ text: 'Đơn vị xử lý hồ sơ', value: 'name', sortable: false, align: 'center' });
+              vm.headers.push({ text: 'Tổng số hồ sơ đang xử lý', value: 'totalProcessing', sortable: false, align: 'center' });
+              vm.headers.push({ text: 'Tổng số hồ đã xử lý', value: 'totalDone', sortable: false, align: 'center' });
+              vm.headers.push({ text: 'Tổng số hồ chưa xử lý', value: 'totalReceiving', sortable: false, align: 'center' });
+              vm.loadingThongKe = false;
+            });
+            if (vm.donViXuLy.length === vm.agencyList.length) {
+              vm.donViXuLy =  [];
+            }
+            if (clear) {
+              vm.donViXuLy =  [];
+              vm.tinhTrangXuLy = [];
+            }
+          },
+          excelExportBtn: function () {
+            var vm = this;
+            if (!vm.dataExportCSV) {
+              vm.snackbartextdossierViewJX = "Không thể export dữ liệu, vui lòng thử lại!";
+              vm.snackbarerordossierViewJX = true;
+              return;
+            }
+            vm.excelExport(vm.dataExportCSV);
+          },
+          excelExport: function (content) {
+            console.log('content++++++++++++++', content);
+            var a = document.createElement('a');
+            a.download = "Thống_kê.csv";
+            a.href = 'data:text/csv;charset=utf-8,%EF%BB%BF' + encodeURIComponent(content);
+            a.click();
+          },
+          createExportTable: function (dataItems) {
+            var vm = this;
+            var dataStr = "";
+            var headerStr = "";
+            var headerTmp = [];
+            var rowStr = "";
+            var newLine = "\r\n";
+            if (dataItems) {
+              var data0 = dataItems[0].data;
+              headerTmp.push('Đơn vị xử lý');
+              for (var i = 0; i < data0.length; i++) {
+                headerTmp.push(data0[i].statusName);
+              }
+              if (!vm.tinhTrangXuLy.length) {
+                headerTmp.push('Tổng số hồ sơ đang xử lý');
+                headerTmp.push('Tổng số hồ đã xử lý');
+                headerTmp.push('Tổng số hồ chưa xử lý');
+              } else {
+                if (vm.checkVisibleTotal('processing')) {
+                  headerTmp.push('Tổng số hồ sơ đang xử lý');
+                }
+                if (vm.checkVisibleTotal('done_0')) {
+                  headerTmp.push('Tổng số hồ đã xử lý');
+                }
+                if (vm.checkVisibleTotal('notprocessing')) {
+                  headerTmp.push('Tổng số hồ chưa xử lý');
+                }
+              }
+              headerStr = headerTmp.join(',');
+              headerStr += newLine;
+
+              for (var i = 0; i < dataItems.length; i++) {
+                var row = dataItems[i].data;
+                var rowTmp = [];
+                rowTmp.push(dataItems[i]['govAgencyName']);
+                for (var j = 0; j < row.length; j++) {
+                  rowTmp.push(row[j].count);
+                }
+                if (!vm.tinhTrangXuLy.length) {
+                  rowTmp.push(dataItems[i]['totalDangxl']);
+                  rowTmp.push(dataItems[i]['totalDaxl']);
+                  rowTmp.push(dataItems[i]['totalChuaxl']);
+                } else {
+                  if (vm.checkVisibleTotal('processing')) {
+                    rowTmp.push(dataItems[i]['totalDangxl']);
+                  }
+                  if (vm.checkVisibleTotal('done_0')) {
+                    rowTmp.push(dataItems[i]['totalDaxl']);
+                  }
+                  if (vm.checkVisibleTotal('notprocessing')) {
+                    rowTmp.push(dataItems[i]['totalChuaxl']);
+                  }
+                }
+                rowStr += rowTmp.join(',');
+                rowStr += newLine;
+              }
+              dataStr = headerStr + rowStr;
+            }
+            return dataStr;
+          },
+          getDonViByCode: function (item) {
+            var vm = this;
+            var donvi = vm.agencyList.find(function (donviItem) {
+              return donviItem.itemCode === item;
+            });
+            if (donvi) {
+              return donvi.itemName;
+            } else {
+              return '';
+            }
           },
           menuTabChange: function(item, event) {
             var vm = this;
@@ -657,17 +1696,30 @@ var funLoadVue = function(stateWindowParam, dossierIdParam, dossierPartNo, email
               window.location.href = "/group/cong-xu-ly/quan-ly-van-tai-quoc-te";
             } else if (item === 'qltk') {
               window.location.href = "/group/cong-xu-ly/quan-ly-tai-khoan";
+            } else if (item === 'qltp') {
+              window.location.href = "/group/cong-xu-ly/quan-ly-thu-phi";
             } else if (item.state === 'mot_cuu_dien_tu') {
               window.location.href = "/group/cong-xu-ly/mot-cua-dien-tu";
+            } else if (item.state === 'thong_ke') {
+              vm.defaultDate();
+              vm.stageFilterView = 'thong_ke'
+              vm.detailRegistPage = false;
+              vm.detailPage = false;
+              vm.initPageThongKe();
+              vm.loadDsThongKe(true);
+            } else if (item.state === 'bao_cao') {
+              vm.defaultDate();
+              vm.stageFilterView = 'bao_cao'
+              vm.detailRegistPage = false;
+              vm.detailPage = false;
+              vm.loadListLoaiGP();
+              vm.getAgency();
+              // vm.viewReport();
+              vm.activeTabBaoCao = 'tabBC1'
             } else {
-              // console.log($(event)[0]);
-              // console.log($(event)[0].target);
               vm.detailRegistPage = false;
               vm.detailPage = false;
               vm.stageFilterView = 'danh_sach';
-              // if (item.value === 'tab2') {
-              // 	$("#activatorTab2").trigger("click");
-              // }
             }
           },
           submitListPrints: function(data) {
@@ -708,6 +1760,23 @@ var funLoadVue = function(stateWindowParam, dossierIdParam, dossierPartNo, email
                 vm.statusTextLoadPrint = 'Tải danh sách bị lỗi, Vui lòng thử lại :(';
               });
           },
+          toXLSX: function(tableId) {
+            $(tableId).children()[0].tableExport();
+            // new TableExport(document.getElementById(tableId).childNodes[0], {
+            //   headers: true,                  
+            //   footers: true,                  
+            //   formats: ["xlsx", "csv", "txt"],
+            //   filename: "Thống kê",                 
+            //   bootstrap: false,               
+            //   exportButtons: true,            
+            //   position: "bottom",             
+            //   ignoreRows: null,               
+            //   ignoreCols: null,              
+            //   trimWhitespace: true,           
+            //   RTL: false,                     
+            //   sheetname: "Thống kê"                 
+            // });
+          },
           changePageGPVTQT: function() {
             var vm = this
             vm._inigiayPhepVanTaiQuocTeTable()
@@ -746,6 +1815,29 @@ var funLoadVue = function(stateWindowParam, dossierIdParam, dossierPartNo, email
             axios.get(url, config).then(function(response) {
                 var serializable = response.data;
                 vm.govAgencysItems = serializable.data;
+                if (serializable.data) {
+                  var arrAgencys = agencies.split(',');
+                  var arrTempAgencys = [];
+                  if (arrAgencys) {
+                    for (var i = 0; i < serializable.data.length; i++) {
+                      var indexTmp = arrAgencys.findIndex(function (item) {
+                        return serializable.data[i].itemCode == item
+                      });
+                      if (indexTmp !== -1) {
+                        arrTempAgencys.push(serializable.data[i]);
+                      }
+                    }
+                  }
+                  arrTempAgencys.sort(function (a, b){
+                    if(a.itemName < b.itemName) { return 1; }
+                    if(a.itemName > b.itemName) { return -1; }
+                    return 0;
+                  });
+                  vm.govAgencysItemsMain = arrTempAgencys;
+                } else {
+                  vm.govAgencysItemsMain = [];
+                }
+                //console.log('vm.govAgencysItemsMain ++++++++++++++++++', vm.govAgencysItemsMain);
               })
               .catch(function(error) {
                 // console.log(error);
@@ -754,12 +1846,6 @@ var funLoadVue = function(stateWindowParam, dossierIdParam, dossierPartNo, email
           _initlistgroupHoSoFilter: function(select) {
             var vm = this;
             vm._inidanhSachHoSoTable(false);
-            // vm.newTabOrNewWindown();
-            // vm.setStateOnlyFollow(emailAddress);
-            // vm.getLastedStateUserInfo(function(){
-            // 	vm._inidanhSachHoSoTable(false);
-            // });
-
             vm.stageFilterView = 'danh_sach';
             vm.loadingMenuList = true;
             vm.listgroupHoSoFilterItems = [];
@@ -772,9 +1858,7 @@ var funLoadVue = function(stateWindowParam, dossierIdParam, dossierPartNo, email
                 agency: agencies
               }
             }
-            /*var url = '/o/rest/v2/statistics/dossiers/todo';*/
             var url = '/o/rest/v2/statistics/dossiers/todo';
-            // console.log("Init load 2");
             axios.get(url, configlistGroup).then(function(response) {
                 var serializable = response.data;
 
@@ -882,12 +1966,11 @@ var funLoadVue = function(stateWindowParam, dossierIdParam, dossierPartNo, email
             vm._initGovAgencysFilter();
             vm.setStateOnlyFollow(emailAddress);
             vm.loadListCodePh();
-            // // console.log('----------------isAdminUser+++++++++++++++', isAdminUser)
             if (isAdminUser) {
               vm.isAdminUser = isAdminUser;
             }
             var params = vm.getUrlVars();
-            console.log(params);
+            //console.log(params);
             if (params !== null && params !== undefined && params.hasOwnProperty('view')) {
               if (params.hasOwnProperty('view')) {
                 var selectView = params['view'];
@@ -958,23 +2041,6 @@ var funLoadVue = function(stateWindowParam, dossierIdParam, dossierPartNo, email
                   }).catch(xhr => {})
                 }
 
-                // var urlFiles = "/o/rest/v2/dossiers/"+vm.detailModel.dossierId+"/files/"+item.referenceUid+"/resetformdata";
-
-                // $.ajax({
-                // 	url : urlFiles,
-                // 	dataType : "json",
-                // 	type : "PUT",
-                // 	headers : {
-                // 		groupId : themeDisplay.getScopeGroupId()
-                // 	},
-                // 	success : function(result){
-                // 		item.counter = 0;
-                // 	},
-                // 	error : function(xhr){
-                // 		// console.log(xhr);
-                // 	}
-                // });
-
                 dialog.close();
                 return false;
               })
@@ -987,7 +2053,6 @@ var funLoadVue = function(stateWindowParam, dossierIdParam, dossierPartNo, email
             var url = '/o/rest/v2/dictcollections/VR_AUDIT/dictitems';
             axios.get(url, config).then(function(response) {
                 var serializable = response.data;
-                // // console.log("emailAddress======",emailAddress);
                 if (serializable) {
                   for (var i = 0; i < serializable.data.length; i++) {
                     var model = serializable.data[i];
@@ -999,7 +2064,6 @@ var funLoadVue = function(stateWindowParam, dossierIdParam, dossierPartNo, email
                 }
               })
               .catch(function(error) {
-                // // console.log(error);
               });
           },
           viewDossierFileVersionDialog: function(item, type) {
@@ -1013,8 +2077,6 @@ var funLoadVue = function(stateWindowParam, dossierIdParam, dossierPartNo, email
             vm.indexFile = 0;
             vm.blobFileSrc = '';
             if (vm.dossierFiles.length > 0) {
-              // // console.log('dossierFiles--------', vm.dossierFiles);
-              // // console.log('item--------', item);
               arrFileViews = vm.dossierFiles.filter(file => {
                 return file.dossierPartNo === item.partNo
               })
@@ -1052,8 +2114,6 @@ var funLoadVue = function(stateWindowParam, dossierIdParam, dossierPartNo, email
             vm.indexFile = 0;
             vm.blobFileSrc = '';
             if (vm.dossierFiles.length > 0) {
-              // console.log('dossierFiles--------', vm.dossierFiles);
-              // console.log('item--------', item);
               arrFileViews = vm.dossierFiles.filter(file => {
                 return file.dossierPartNo === item.partNo && item.dossierFileId === file.dossierFileId
               })
@@ -1065,15 +2125,6 @@ var funLoadVue = function(stateWindowParam, dossierIdParam, dossierPartNo, email
             }
 
             if (vm.dossierFilesView.length > 0) {
-              // let arrTemp = []
-              // for (var i = 0; i < vm.dossierFilesView.length; i++) {
-              // 	arrTemp.push(vm.getBlobFile(vm.dossierFilesView[i]));
-              // }
-              // Promise.all(arrTemp).then(resultsFiles => {
-              // 	// console.log('resultsFiles-----', resultsFiles)
-              // 	vm.listBlobSrc = resultsFiles
-              // }).catch(rejectErr => {
-              // })
               var url = "/o/rest/v2/dossiers/" + vm.detailModel.dossierId + "/files/" + vm.dossierFilesView[0].referenceUid;
               // console.log("Preview dossier PDF");
               vm.getBlobFile(vm.dossierFilesView[0]).then(resolve => {
@@ -1117,7 +2168,6 @@ var funLoadVue = function(stateWindowParam, dossierIdParam, dossierPartNo, email
               };
 
               var url = '/o/rest/v2/dossiers/' + vm.detailModel.dossierId + '/files/' + item.referenceUid;
-
               axios.get(url, config_blob).then(function(response) {
                   var url = window.URL.createObjectURL(response.data);
                   if (response.status === 204) {
@@ -1127,25 +2177,23 @@ var funLoadVue = function(stateWindowParam, dossierIdParam, dossierPartNo, email
                   }
                 })
                 .catch(function(error) {
-                  // console.log(error);
                   reject(false)
                 });
             })
           },
           printDeliverable: function() {
             $('#printTraCuu').printThis();
-            // console.log("Print deliverable");
           },
           searchAdvanceDossier() {
             var vm = this
+            vm.govAgencySearch2 = '';
+            vm.yearSearch = '';
             if (vm.stageFilterView === 'tat_ca_hoso' && !vm.detailPage && !vm.detailRegistPage) {
               vm._inidanhSachHoSoTable(false);
             } else if (vm.stageFilterView === 'tra_cuu_phuong_tien' && !vm.detailPage && !vm.detailRegistPage) {} else if (vm.stageFilterView === 'tra_cuu_thong_tin_doanh_nghiep' && !vm.detailPage && !vm.detailRegistPage) {
               vm._inithongTinDoanhNghiepTable(false);
               vm.detailRegistPage = false;
             } else {
-              // vm.substatusParamFilter = '';
-              // vm.statusParamFilter = '';
               vm._inidanhSachHoSoTable(false);
             }
             vm.dialogSearch = false;
@@ -1159,6 +2207,7 @@ var funLoadVue = function(stateWindowParam, dossierIdParam, dossierPartNo, email
             vm.endDate = '';
             vm.dossierNo = '';
             vm.serviceInfo = '';
+            vm.govAgencySearch = '';
             vm._inidanhSachHoSoTable(false);
           },
           savePrintTemplate: function() {
@@ -1166,6 +2215,7 @@ var funLoadVue = function(stateWindowParam, dossierIdParam, dossierPartNo, email
 
             $("#printTraCuu > div").each(function() {
               var id = $(this).attr('id');
+              var css = $(this).attr('data-css');
               // console.log("Div id: " + id);
               var xPos = $(this).position().left;
               var yPos = $(this).position().top;
@@ -1174,12 +2224,14 @@ var funLoadVue = function(stateWindowParam, dossierIdParam, dossierPartNo, email
                 formTemplate[id] = {
                   offsetX: xPos,
                   offsetY: yPos,
-                  value: $(this).text()
+                  value: $(this).text(),
+                  css: css
                 };
               } else {
                 formTemplate[id] = {
                   offsetX: xPos,
-                  offsetY: yPos
+                  offsetY: yPos,
+                  css: css
                 };
               }
             });
@@ -1276,7 +2328,6 @@ var funLoadVue = function(stateWindowParam, dossierIdParam, dossierPartNo, email
                       }
                     }
 
-                    //						        	$('#printTraCuu').css("background-image",'url(' + originalDocumentObj.url + ')');
                     $('#imgTraCuu').attr("src", originalDocumentObj.url);
                     $('#imgTraCuu').css(originalDocumentObj.css);
 
@@ -1305,7 +2356,7 @@ var funLoadVue = function(stateWindowParam, dossierIdParam, dossierPartNo, email
                           if (item.hasOwnProperty(newKey)) {
                             var itemDataArr = item[newKey].split("/");
                             if (itemDataArr.length > newKeyArr[1]) {
-                              $("#printTraCuu").append('<div id=' + key + ' title=' + key + ' style="' + cssDiv + ';z-index: 99; position:absolute; left : ' + formData[key].offsetX + 'px; top : ' + formData[key].offsetY + 'px">' + itemDataArr[newKeyArr[1]] + '</div>');
+                              $("#printTraCuu").append('<div id=' + key + ' title=' + key + ' data-css="' + cssDiv + '" style="' + cssDiv + ';z-index: 99; position:absolute; left : ' + formData[key].offsetX + 'px; top : ' + formData[key].offsetY + 'px">' + itemDataArr[newKeyArr[1]] + '</div>');
                             }
                           }
                         } else if (key.indexOf("_") != -1) {
@@ -1313,23 +2364,26 @@ var funLoadVue = function(stateWindowParam, dossierIdParam, dossierPartNo, email
                           var newKeyArr = key.split("_");
                           var newKey = newKeyArr[1];
                           if (item.hasOwnProperty(newKey)) {
-                            $("#printTraCuu").append('<div id=' + key + ' title=' + key + ' style="' + cssDiv + ';z-index: 99; position:absolute; left : ' + formData[key].offsetX + 'px; top : ' + formData[key].offsetY + 'px">' + item[newKey] + '</div>');
+                            $("#printTraCuu").append('<div id=' + key + ' title=' + key + ' data-css="' + cssDiv + '" style="' + cssDiv + ';z-index: 99; position:absolute; left : ' + formData[key].offsetX + 'px; top : ' + formData[key].offsetY + 'px">' + item[newKey] + '</div>');
                           }
                         } else {
                           if (key.toLowerCase().indexOf("text") !== -1 && formData[key].hasOwnProperty("value")) {
-                            $("#printTraCuu").append('<div id=' + key + ' title=' + key + ' style="' + cssDiv + ';z-index: 99; position:absolute; left : ' + formData[key].offsetX + 'px; top : ' + formData[key].offsetY + 'px">' + formData[key].value + '</div>');
+                            $("#printTraCuu").append('<div id=' + key + ' title=' + key + ' data-css="' + cssDiv + '" style="' + cssDiv + ';z-index: 99; position:absolute; left : ' + formData[key].offsetX + 'px; top : ' + formData[key].offsetY + 'px">' + formData[key].value + '</div>');
                           } else if (item.hasOwnProperty(key)) {
-                            $("#printTraCuu").append('<div id=' + key + ' title=' + key + ' style="' + cssDiv + ';z-index: 99; position:absolute; left : ' + formData[key].offsetX + 'px; top : ' + formData[key].offsetY + 'px">' + item[key] + '</div>');
+                            $("#printTraCuu").append('<div id=' + key + ' title=' + key + ' data-css="' + cssDiv + '" style="' + cssDiv + ';z-index: 99; position:absolute; left : ' + formData[key].offsetX + 'px; top : ' + formData[key].offsetY + 'px">' + item[key] + '</div>');
                           }
                         }
                         $('#' + key).draggable({
                           stop: function() {
+                            console.log($(this));
                             var position = $(this).position();
+                            var css = $(this).attr('data-css');
                             var xPos = position.left;
                             var yPos = position.top;
                             formData[this.id].offsetX = xPos;
                             formData[this.id].offsetY = yPos;
-
+                            formData[this.id].css = css;
+                            //console.log('css=====', css);
                             var data = {
                               serviceCode: response.data.serviceCode,
                               dossierPartNo: response.data.dossierPartNo,
@@ -1417,7 +2471,7 @@ var funLoadVue = function(stateWindowParam, dossierIdParam, dossierPartNo, email
 											}
 										});
 										*/
-
+                    // $("#btnSavePrintTemplate").click();
                   }
                 } else {
                   vm.popUpPrintTraCuu = !vm.popUpPrintTraCuu;
@@ -1581,7 +2635,7 @@ var funLoadVue = function(stateWindowParam, dossierIdParam, dossierPartNo, email
             const config_dossiers = {
               params: paramsBuilder,
               headers: {
-                'groupId': themeDisplay.getScopeGroupId(),
+                'groupId': themeDisplay.getScopeGroupId()
               }
             };
 
@@ -1589,8 +2643,6 @@ var funLoadVue = function(stateWindowParam, dossierIdParam, dossierPartNo, email
 
             axios.get(url, config_dossiers).then(function(response) {
                 var serializable = response.data;
-
-
                 if (append) {
                   vm.giayPhepVanTaiQuocTeTableItems.push.apply(vm.giayPhepVanTaiQuocTeTableItems, serializable.data);
                 } else if (serializable.data) {
@@ -1959,15 +3011,10 @@ var funLoadVue = function(stateWindowParam, dossierIdParam, dossierPartNo, email
               axios.get(url, config).then(function(response) {
                   var serializable = response.data;
 
-                  // console.log("serializable========",serializable);
-
                   var serviceCode = serializable.serviceInfo;
                   var applicantIdNo = serializable.applicant;
                   var dossierNo = serializable.dossierNo;
 
-                  // console.log("serviceCode========",serviceCode);
-                  // console.log("applicantIdNo========",applicantIdNo);
-                  // console.log("dossierNo========",dossierNo);
                   if (serviceCode) {
                     vm.serviceInfoFilter = {
                       serviceCode: serviceCode,
@@ -2055,8 +3102,6 @@ var funLoadVue = function(stateWindowParam, dossierIdParam, dossierPartNo, email
                     vm.snackbardossierViewJX = true;
                     vm._inilistDocumentIn(vm.detailModel);
                     vm._inilistDocumentIn(vm.detailModel);
-                    // vm.listDocumentOutStepItems.splice(index, 1);
-                    // vm.stepModel.createFiles[item.index].counter = vm.stepModel.createFiles[item.index].counter - 1;
                   },
                   error: function(result) {
                     vm.snackbartextdossierViewJX = "Xoá thất bại!";
@@ -2074,15 +3119,12 @@ var funLoadVue = function(stateWindowParam, dossierIdParam, dossierPartNo, email
             vm.loadingAlpacajsForm = true;
             vm.actionsSubmitLoading = true;
             try {
-              // console.log("$('#alpacajs_form_'+item.partNo + ' .formType').val()============",$("#alpacajs_form_"+item.partNo + " .formType").val());
               if ($("#alpacajs_form_" + item.partNo + " .formType").val() == null ||
                 $("#alpacajs_form_" + item.partNo + " .formType").val() == 'undefined') {
-                // console.log("formType 1");
                 vm.loadingAlpacajsForm = true;
 
                 var control = $("#alpacajs_form_" + item.partNo).alpaca("get");
                 var formData = control.getValue();
-                // console.log("Form data: " + JSON.stringify(formData));
 
                 $.ajax({
                   url: "/o/rest/v2/dossiers/" + vm.detailModel.dossierId + "/files/" + item.referenceUid + "/formdata",
@@ -2211,10 +3253,8 @@ var funLoadVue = function(stateWindowParam, dossierIdParam, dossierPartNo, email
           viewOnNewTab: function(item) {
             var vm = this;
             if (item.counter > 0) {
-              // console.log("vm.detailModel========",vm.detailModel);
               var url = "/group/cong-xu-ly/xu-ly-ho-so?stateWindow=stateWindow&dossierId=" + vm.detailModel.dossierId +
                 "&dossierPartNo=" + item.partNo;
-              // console.log("url============",url);
               window.open(url, "_blank");
             }
           },
@@ -2225,7 +3265,6 @@ var funLoadVue = function(stateWindowParam, dossierIdParam, dossierPartNo, email
             var vm = this;
             //alapcajs Form
             var url = '/o/rest/v2/registrations/' + vm.detailRegistModel.registrationId + '/forms/' + item.referenceUid + "/formscript";
-            // var url = '/o/frontendwebdossier/json/steps.json';
             vm.alapcaJSRei = {};
             axios.get(url, config).then(function(response) {
                 var serializable = response.data;
@@ -2272,10 +3311,6 @@ var funLoadVue = function(stateWindowParam, dossierIdParam, dossierPartNo, email
             vm.stepModel = null;
             $("#alpacajs_form_plugin").empty();
 
-            /*if(status === "waiting" && subStatus === "watting_1"){
-            	$("#labelTPKQ").html("File đính kèm");
-            }*/
-
             if (item.type === 1) {
               vm.maxWidthDialog = '600px';
               var needIntervalRefresh = false;
@@ -2320,7 +3355,6 @@ var funLoadVue = function(stateWindowParam, dossierIdParam, dossierPartNo, email
               }
 
               vm.processAssignUserIdItems = item.toUsers;
-              // console.log("Need interval refresh: " + needIntervalRefresh);
               if (needIntervalRefresh) {
                 vm.disabledDossierFile = true;
                 setTimeout(function() {
@@ -2419,10 +3453,6 @@ var funLoadVue = function(stateWindowParam, dossierIdParam, dossierPartNo, email
                         var formReport = eval('(' + serializable.formReport + ')');
                         var formData = eval('(' + serializable.formData + ')');
 
-                        // console.log("formReport======",formReport);
-                        // console.log("formData======",formData);
-                        /*var formData = serializable.formData;*/
-
                         formReport.data = formData;
                         // console.log("formReport_____FINAL=======",formReport);
                         $("#alpacajs_form_plugin").alpaca(formReport);
@@ -2507,13 +3537,6 @@ var funLoadVue = function(stateWindowParam, dossierIdParam, dossierPartNo, email
                   }
                 }
               }
-              // if (showTemplatePrint && vm.listPrintItems.length > 0) {
-              //   for (var i = 0; i < vm.listPrintItems.length; i++) {
-              //     if (vm.listPrintItems[i].formData.hasOwnProperty('LicenceType') && vm.listPrintItems[i].formData['LicenceType'] !== null && vm.listPrintItems[i].formData['LicenceType'] !== "") {
-
-              //     }
-              //   }
-              // }
               if (!codePh) {
                 // console.log('ko tìm thấy mã ph!');
               }
@@ -2542,38 +3565,29 @@ var funLoadVue = function(stateWindowParam, dossierIdParam, dossierPartNo, email
             // console.log("itempostNextActions2============",item);
             var vm = this;
             var createFiles = item.createFiles;
-            // console.log("createFiles============",createFiles);
-            vm.dialogThuLyHoSo = false;
+            console.log("createFiles============",createFiles);
             var submitAlpacajsFns = new Array();
-
-            /*for (var i = 0; i < createFiles.length; i++) {
-            	if(createFiles[i].eform){
-            		submitAlpacajsFns.push(vm.submitAlpacajsForm(createFiles[i]));
-            	}
-
-            }*/
-            var promise = new Promise(function(resolve, reject) {
-              try {
-                vm.actionsSubmitLoading = true;
-                $(".saveForm").click();
-                resolve(true);
-              } catch (e) {
-                resolve(false);
+            var valid = true;
+            console.log($('.validForm'));
+            $('.validForm').each(function (index, val) {
+              if ($(val).val() == '0') {
+                if (createFiles) {
+                  var itemCreate = createFiles.find(function (item) {
+                    return item.partNo === $(val).attr('data-partNo')
+                  })
+                  if (itemCreate) {
+                    vm.snackbartextdossierViewJX = "Vui lòng nhấn nút ghi lại của thành phần " + itemCreate.partNo + " trước khi thực hiện hành động này";
+                    vm.snackbarerordossierViewJX = true;
+                    valid = false;
+                  }
+                }
               }
-            });
-
-            promise.then(function(success) {
-              vm.postNextActions(item);
-            }, function(error) {
-
-            });
-
-            //// console.log("submitAlpacajsFns============",submitAlpacajsFns);
-            /*try{
-            	await Promise.all(submitAlpacajsFns);
-            }catch(e){
-
-            }*/
+            })
+            if (!valid) {
+              vm.dialogThuLyHoSo = true;
+              return;
+            }
+            vm.postNextActions(item);
 
           },
           postNextActions: function(item) {
@@ -2581,6 +3595,7 @@ var funLoadVue = function(stateWindowParam, dossierIdParam, dossierPartNo, email
             // console.log(item);
             var vm = this;
             vm.actionsSubmitLoading = true;
+            vm.dialogThuLyHoSo = true;
             var fileArr = item.createFiles;
             var idArr = [];
             var waitingFiles = false;
@@ -2628,21 +3643,6 @@ var funLoadVue = function(stateWindowParam, dossierIdParam, dossierPartNo, email
 
 
             var isKyOk = item.eSignature;
-            //// console.log("plugin().valid ==============>",plugin().valid);
-            // TODO
-            /*if (isKyOk && !plugin().valid) {
-								alert("Plugin is not working :(");
-				                vm.actionsSubmitLoading = false;
-				                isKyOk = false;
-				                return;
-							} else if (!isKyOk) {
-								isKyOk = true;
-							} else if(){
-								var x = plugin().Sign('tGp5xOELB59zprQeqh2ks89BgWE=');
-								// console.log(x);
-								isKyOk = true;
-							}*/
-            //							// console.log("Plugin: " + plugin());
             if (isKyOk) {
               if (!plugin().valid) {
                 alert("Plugin is not working :(");
@@ -2656,16 +3656,6 @@ var funLoadVue = function(stateWindowParam, dossierIdParam, dossierPartNo, email
                 return;
               }
             }
-            /*	if(!plugin().valid === 0){
-				                alert("Plugin is not working :(");
-				                vm.actionsSubmitLoading = false;
-				                isKyOk = false;
-				                return;
-				            } else {
-				                var x = plugin().Sign('tGp5xOELB59zprQeqh2ks89BgWE=');
-								// console.log(x);
-								isKyOk = true;
-							}*/
 
             if (!isKyOk) {
               $.ajax({
@@ -2688,7 +3678,7 @@ var funLoadVue = function(stateWindowParam, dossierIdParam, dossierPartNo, email
 
                   vm.snackbartextdossierViewJX = item.actionName + " thành công!";
                   vm.snackbardossierViewJX = true;
-
+                  vm.dialogThuLyHoSo = false;
                   setTimeout(function() {
                     vm._inidanhSachHoSoTable();
                     // vm.reloadCounter();
@@ -2702,7 +3692,7 @@ var funLoadVue = function(stateWindowParam, dossierIdParam, dossierPartNo, email
 
                 },
                 error: function(xhr, textStatus, errorThrown) {
-
+                  vm.dialogThuLyHoSo = false;
                   vm.snackbartextdossierViewJX = item.actionName + " thất bại!";
                   vm.snackbarerordossierViewJX = true;
                   vm.actionsSubmitLoading = false;
@@ -2720,6 +3710,7 @@ var funLoadVue = function(stateWindowParam, dossierIdParam, dossierPartNo, email
                 var strIdArr = idArr.join(";");
                 var actionName = item.actionName;
                 // console.log(strIdArr);
+                vm.dialogThuLyHoSo = false;
                 vm.kyDuyetYCGiamDinh(strIdArr, paramObj, actionName);
               }
             }
@@ -2728,35 +3719,22 @@ var funLoadVue = function(stateWindowParam, dossierIdParam, dossierPartNo, email
           kyDuyetYCGiamDinh: function(strIdArr, paramObj, actionName) {
             var vm = this;
             var url = '/o/rest/v2/digitalSignature/' + vm.detailModel.dossierId + '/hashComputed';
-            // console.log(vm.detailModel.dossierId);
             $.ajax({
               type: 'POST',
               url: url,
-              // async: false,//bat dong bo = fale, dong bo voi client
               dataType: 'json',
               data: {
-                // type: 'kyDuyetYCGiamDinh',
                 strIdArr: strIdArr,
                 actionCode: paramObj.actionCode,
                 postStepCode: paramObj.postStepCode
-                // strDossierPartId: strDossierPartId
-                /*id : controlRequirementId*/
               },
               success: function(result) {
-                // console.log(result);
-                /*var jsonData = JSON.parse(result);*/
                 var msgs = result.msg;
                 if (msgs !== 'fileEntryId') {
-                  // console.log('not fileEntryId')
                   var hashComputers = result.hashComputers;
-                  // console.log('result.hashComputers++++++++++', result.hashComputers)
                   var signFieldNames = result.signFieldNames;
                   var fileNames = result.fileNames;
                   var fileEntryIds = result.fileEntryId;
-                  // console.log("hashComputers: "+hashComputers);
-                  // console.log("signFieldNames: "+signFieldNames);
-                  // console.log("fileNames: "+fileNames);
-                  // console.log("msgs: "+msgs);
                   vm.actionsSubmitLoading = false;
                   var signs = [];
 
@@ -2768,27 +3746,10 @@ var funLoadVue = function(stateWindowParam, dossierIdParam, dossierPartNo, email
                       var code = plugin().Sign(hashComputer);
 
                       if (code === 0 || code === 7) {
-                        // console.log('code ok');
                         var sign = plugin().Signature;
-                        // console.log('plugin().Signature+++++++', plugin().Signature);
                         var signFieldName = signFieldNames[i];
                         var fileName = fileNames[i];
-                        // console.log("sign: "+sign);
-                        // console.log("signFieldName: "+signFieldName);
-                        // console.log("fileName: "+fileName);
                         signs.push(sign);
-                        //													var msg = msgs[i];
-                        //													if(msg == 'success') {
-                        //														try {
-                        //															// console.log('Complete sign');
-                        //															vm.completeKyDuyetYCGiamDinh(sign, signFieldName, fileName, fileEntryId, paramObj, actionName);
-                        //														}
-                        //														catch(err) {
-                        //															// console.log(err);
-                        //														}
-                        //													}else{
-                        //														alert(msg);
-                        //													}
                       } else {
                         alert(plugin().ErrorMessage);
                       }
@@ -2813,7 +3774,6 @@ var funLoadVue = function(stateWindowParam, dossierIdParam, dossierPartNo, email
             $.ajax({
               type: 'PUT',
               url: url,
-              // async: false,//bat dong bo = fale, dong bo voi client
               dataType: 'json',
               headers: {
                 "groupId": themeDisplay.getScopeGroupId()
@@ -2831,7 +3791,6 @@ var funLoadVue = function(stateWindowParam, dossierIdParam, dossierPartNo, email
                 fileEntryId: fileEntryIds
               },
               success: function(result) {
-                // console.log(result);
 
                 var msg = result.msg;
                 if (msg == 'success') {
@@ -2839,7 +3798,6 @@ var funLoadVue = function(stateWindowParam, dossierIdParam, dossierPartNo, email
                   vm.snackbardossierViewJX = true;
 
                   vm._inidanhSachHoSoTable();
-                  // vm._initlistgroupHoSoFilter();
                   setTimeout(function() {
                     vm._initlistgroupHoSoFilter();
                   }, 1000);
@@ -2881,16 +3839,12 @@ var funLoadVue = function(stateWindowParam, dossierIdParam, dossierPartNo, email
                 fileEntryId: fileEntryId
               },
               success: function(result) {
-                // console.log(result);
-                /*var jsonData = JSON.parse(result);*/
                 var msg = result.msg;
                 if (msg == 'success') {
-                  //										alert('ký số thành công!');
                   vm.snackbartextdossierViewJX = actionName + " thành công!";
                   vm.snackbardossierViewJX = true;
                   vm._inidanhSachHoSoTable();
                   setTimeout(function() {
-                    //											alert('Next action signature');
                     vm._initlistgroupHoSoFilter();
                   }, 1000);
                   vm.detailPage = false;
@@ -3045,31 +3999,15 @@ var funLoadVue = function(stateWindowParam, dossierIdParam, dossierPartNo, email
                   vm.disabledDossierFile = true;
                   setTimeout(function() {
                     vm.refreshProcess();
-                    /*change-------------*/
-                    // vm._inilistDocumentIn(vm.detailModel);
-                    // vm._inilistDocumentOut(vm.detailModel);
                     nOfRetry++;
                   }.bind(this), 3000);
                 } else {
                   vm.stepLoading = false;
                   vm.disabledDossierFile = false;
-                  // console.log(vm.processSteps);
 
-                  //neu processSteps chi co 1, trigger chanProcessStep
                   if (vm.processSteps.length === 1) {
-                    // vm.changeProcessStep(vm.processSteps[0]);
                   }
                 }
-                // var interval = null;
-                // for (var i = 0; i < serializableNextActionConvert.length; i++) {
-                //   if (serializableNextActionConvert[i].pending) {
-                //     interval = setTimeout(function () {
-                //       vm._initchangeProcessStep();
-                //       console.log("vllll");
-                //     }, 2000);
-                //   }
-                //   return;
-                // }
               }))
               .catch(function(error) {
                 // console.log(error);
@@ -3155,45 +4093,16 @@ var funLoadVue = function(stateWindowParam, dossierIdParam, dossierPartNo, email
                 vm.snackbarerordossierViewJX = true;
               }
             });
-            /**
-                            axios.post(url, postData, config).then(function (response) {
-                                var serializable = response.data;
-
-								vm._initchangeProcessStep();
-
-                            })
-                                .catch(function (error) {
-                                    // console.log(error);
-									vm.snackbartextdossierViewJX = item.actionName + " thất bại!";
-                      				vm.snackbarerordossierViewJX = true;
-                                });
-                                */
           },
           undoDetailPage: function() {
 
             this.detailPage = !this.detailPage;
             setTimeout(function() {
-              // temp fix header
-              // $('.danhSachHoSoTable__class th[role="columnheader"]').each(function( index ) {
-              // 	if ($( this ).attr('aria-label').indexOf("Activate") > 0) {
-              // 		$( this ).html($( this ).attr('aria-label').substring(0, $( this ).attr('aria-label').indexOf(":")).replace(/\./g,"<br/>") + ' <i aria-hidden="true" class="material-icons icon">arrow_upward</i>');
-              // 	} else {
-              // 		$( this ).html($( this ).attr('aria-label').substring(0, $( this ).attr('aria-label').indexOf(":")).replace(/\./g,"<br/>"));
-              // 	}
-              // });
             }, 300);
           },
           undoDetailRegistPage: function() {
             this.detailRegistPage = !this.detailRegistPage;
             setTimeout(function() {
-              // temp fix header
-              // $('.thongTinDoanhNghiepTable__class th[role="columnheader"]').each(function( index ) {
-              // 	if ($( this ).attr('aria-label').indexOf("Activate") > 0) {
-              // 		$( this ).html($( this ).attr('aria-label').substring(0, $( this ).attr('aria-label').indexOf(":")).replace(/\./g,"<br/>") + ' <i aria-hidden="true" class="material-icons icon">arrow_upward</i>');
-              // 	} else {
-              // 		$( this ).html($( this ).attr('aria-label').substring(0, $( this ).attr('aria-label').indexOf(":")).replace(/\./g,"<br/>"));
-              // 	}
-              // });
             }, 300);
           },
           onScroll(e) {
@@ -3204,9 +4113,6 @@ var funLoadVue = function(stateWindowParam, dossierIdParam, dossierPartNo, email
           },
           newTabOrNewWindown: function() {
             var vm = this;
-
-            // console.log("===============run newTabOrNewWindown============");
-
             if (stateWindowParam === "stateWindow") {
 
               if (dossierIdParam) {
@@ -3269,333 +4175,6 @@ var funLoadVue = function(stateWindowParam, dossierIdParam, dossierPartNo, email
           }
         }
       },
-      //                 'listgroupHoSoFilter': {
-      //                 	'id': 'listgroupHoSoFilter',
-      //                 	'name': 'listgroupHoSoFilter',
-      //                 	"type": "listgroup",
-      //                 	'show_counter': true,
-      //                 	'counter': 'count',
-      //                 	"child_items": "items",
-      //                 	"data_title": "title",
-      //                 	"data_value": "id",
-      //                 	"onLoad": "_initlistgroupHoSoFilter",
-      //                 	"onClick": "groupHoSoFilter",
-      //                 	"events": {
-      //               		groupHoSoFilter: function(item){
-      //               			var vm = this;
-
-      //               			// console.log("item status",item);
-
-      //               			vm.reloadCounter();
-
-
-      //               			vm.detailPage = false;
-      //               			vm.detailRegistPage = false;
-      //               			vm.listgroupHoSoFilterselected = item.id;
-      //               			vm.danhSachHoSoTablepage = 1;
-
-      //               			vm.listgroupHoSoFilterselectedIndex = item.index - 1;
-
-      //               			if ( item.id !== 'tra_cuu' ){
-      //               				vm.stageFilterView = item.id;
-      //               				vm.hoso_title_table = item.title;
-      //               				if (item.level === 1) {
-      //               					vm.statusParamFilter = item.idSub;
-      //               					vm.substatusParamFilter = item.id;
-      //               				} else {
-      //               					vm.statusParamFilter = item.id;
-      //               					vm.substatusParamFilter = item.idSub;
-      //               				}
-
-      //               			}
-
-
-
-      //               			if (item.id == 'tra_cuu_hoso') {
-      //               				vm._initraCuuHoSoTable(false);
-      //               			} else if (item.id == 'tra_cuu_phuong_tien') {
-      // 		// TODO vm._inidanhSachHoSoTable(false);
-      // 	} else if (item.id == 'tra_cuu_thong_tin_doanh_nghiep') {
-      // 		vm._inithongTinDoanhNghiepTable(false);
-      // 		vm.detailRegistPage = false;
-      // 	} else {
-      // 		vm._inidanhSachHoSoTable(false);
-      // 	}
-      // 	vm.onScrollTop();
-
-      // },
-      // reloadCounter : function(){
-      // 	var vm = this;
-
-      // 	vm.stageFilterView = 'danh_sach';
-
-      // 	/*var url = '/o/rest/v2/statistics/dossiers/todo';*/
-      // 	var url = '/o/rest/v2/statistics/dossiers/todo';
-      // 	// console.log("Init load");
-      // 	$.ajax({
-      // 		url : url,
-      // 		dataType : "json",
-      // 		type : "GET",
-      // 		headers : {
-      // 			'groupId': themeDisplay.getScopeGroupId(),
-      // 		},
-      // 		data: {
-      // 			service: vm.serviceInfoFilter.serviceCode,
-      // 			agency: agencies
-      // 		},
-      // 		success : function(result){
-      // 			var serializable = result;
-
-      // 			var indexTree = -1;
-      // 			var index = 0;
-      // 			//// console.log("listgroupHoSoFilterItems=======FISRT",vm.listgroupHoSoFilterItems);
-      // 			//// console.log("serializable=======",serializable.data);
-      // 			for (var key in serializable.data) {
-      // 				for(var i in vm.listgroupHoSoFilterItems){
-      // 					if ( serializable.data[key].level === 0) {
-
-      // 						if (serializable.data[key].dossierStatus === 'cancelling' ||
-      // 							serializable.data[key].dossierStatus === 'cancelled' ||
-      // 							serializable.data[key].dossierStatus === 'processing' ||
-      // 							serializable.data[key].dossierStatus === 'paid') {
-      // 							serializable.data[key].items = [];
-
-      // 						if(serializable.data[key].dossierStatus === vm.listgroupHoSoFilterItems[i].id){
-      // 							vm.listgroupHoSoFilterItems[i].count = serializable.data[key].count;
-      // 						}
-      // 					}
-
-      // 				} else {
-
-      // 					if(serializable.data[key].dossierSubStatus === vm.listgroupHoSoFilterItems[i].id){
-      // 						vm.listgroupHoSoFilterItems[i].count = serializable.data[key].count;
-      // 					}
-      // 				}
-      // 			}
-
-      // 		}
-      // 		//// console.log("listgroupHoSoFilterItems=======LAST",vm.listgroupHoSoFilterItems);
-
-      // 	},
-      // 	error : function(result){
-
-      // 	}
-      // });
-
-      // },
-      // _initlistgroupHoSoFilter: function(select){
-      // 	var vm = this;
-
-      // 	vm.newTabOrNewWindown();
-      // 	vm.setStateOnlyFollow(emailAddress);
-      // 	vm.getLastedStateUserInfo(function(){
-      // 		vm._inidanhSachHoSoTable(false);
-      // 	});
-
-      // 	vm.stageFilterView = 'danh_sach';
-
-      // 	vm.listgroupHoSoFilterItems = [];
-
-      // 	/*var url = '/o/rest/v2/statistics/dossiers/todo';*/
-      // 	var url = '/o/rest/v2/statistics/dossiers/todo';
-      // 	// console.log("Init load 2");
-      // 	axios.get(url, config).then(function (response) {
-      // 		var serializable = response.data;
-
-      // 		var indexTree = -1;
-      // 		var index = 0;
-      // 		for (var key in serializable.data) {
-
-      // 			if ( serializable.data[key].level === 0) {
-
-      // 				if (serializable.data[key].dossierStatus === 'cancelling' ||
-      // 					serializable.data[key].dossierStatus === 'cancelled' ||
-      // 					serializable.data[key].dossierStatus === 'processing' ||
-      // 					serializable.data[key].dossierStatus === 'paid') {
-      // 					serializable.data[key].items = [];
-
-      // 				vm.listgroupHoSoFilterItems.push({
-      // 					id: serializable.data[key].dossierStatus,
-      // 					idSub: serializable.data[key].dossierSubStatus,
-      // 					title: serializable.data[key].statusName,
-      // 					level: serializable.data[key].level,
-      // 					count: serializable.data[key].count,
-
-      // 					action: 'folder',
-      // 					action_active: 'folder_open',
-      // 					items: [],
-      // 					index: index
-      // 				});
-      // 			}
-
-      // 		} else {
-
-      // 			vm.listgroupHoSoFilterItems.push({
-      // 				id: serializable.data[key].dossierSubStatus,
-      // 				idSub: serializable.data[key].dossierStatus,
-      // 				title: serializable.data[key].statusName,
-      // 				level: serializable.data[key].level,
-      // 				count: serializable.data[key].count,
-      // 				action: 'folder',
-      // 				action_active: 'folder_open',
-      // 				items: [],
-      // 				index: index
-      // 			});
-      // 		}
-
-      // 	}
-
-      // 	if(select){
-      // 		// console.log("selected========",select);
-      // 		vm.listgroupHoSoFilterselected = select;
-      // 	}
-
-
-      // })
-      // 	.catch(function (error) {
-      // 		// console.log(error);
-
-      // 	});
-      // 	return false;
-      // }
-      // 	}
-      // },
-      // 'listgroupTraCuuFilter': {
-      // 	'id': 'listgroupTraCuuFilter',
-      // 	'name': 'listgroupTraCuuFilter',
-      // 	"type": "listgroup",
-      // 	'cssClass': 'pb-5',
-      // 	"child_items": "items",
-      // 	"data_title": "title",
-      // 	"data_value": "id",
-      // 	"onLoad": "_initlistgroupTraCuuFilter",
-      // 	"onClick": "filterChange",
-      // 	"events": {
-      // 		filterChange: function(item){
-      // 			var vm = this;
-      // 			vm.detailPage = false;
-      // 			vm.detailRegistPage = false;
-      // 			vm.listgroupTraCuuFilterselected = item.id;
-      // 			if ( item.id !== 'tra_cuu' ){
-      // 				vm.stageFilterView = item.id;
-      // 				vm.hoso_title_table = item.title;
-      // 			}
-
-      // 			if (item.id == 'tra_cuu_hoso') {
-      // 				vm._initraCuuHoSoTable(false);
-      // 				vm._initAdvanced_filter_serviceInfo();
-      // 				vm._initAdvanced_filter_loaiSanPham();
-      // 				vm._initAdvanced_filter_nhanHieu();
-      // 				vm._initAdvanced_filter_dossierStatus();
-
-      // 			} else if (item.id == 'tra_cuu_giay_phep') {
-      // 				// console.log("GO------------")
-      // 				vm._inigiayPhepVanTaiQuocTeTable(false);
-      // 				vm._initServiceInfos({
-      // 					serviceCode: configPage.serviceinfosQuocTe
-      // 				});
-      // 				vm._initGovAgencys({
-
-      // 				});
-      // 				vm._initTuyens();
-
-      // 			}else if(item.id === 'tat_ca_hoso'){
-
-      // vm.detailPage = false;
-      // vm.detailRegistPage = false;
-      // vm.listgroupHoSoFilterselected = item.id;
-      // vm.danhSachHoSoTablepage = 1;
-
-      // vm.listgroupHoSoFilterselectedIndex = item.index - 1;
-
-      // vm.statusParamFilter = '';
-      // vm.substatusParamFilter = '';
-
-      // vm._inidanhSachHoSoTable(false);
-
-      // vm.onScrollTop();
-      // 			}
-
-      // 		},
-      // 		_initlistgroupTraCuuFilter: function(){
-      // 			var vm = this;
-
-      // 			vm.listgroupTraCuuFilterItems = [
-      // 			{
-      // 				id: 'tat_ca_hoso',
-      // 				title: 'Tất cả hồ sơ'
-      // 			},
-      // 			// {
-      // 			// 	id: 'tra_cuu_phuong_tien',
-      // 			// 	title: 'Phương tiện sản xuất lắp ráp'
-      // 			// },
-      // 			// {
-      // 			// 	id: 'tra_cuu_thong_tin_doanh_nghiep',
-      // 			// 	title: 'Thông tin doanh nghiệp'
-      // 			// },
-      // 			{
-      // 				id: 'tra_cuu_giay_phep',
-      // 				title: 'Tra cứu giấy phép'
-      // 			}
-      // 			];
-
-      // 		}
-      // 	}
-      // },
-      // 				'listgroupBaoCaoFilter': {
-      // 					'id': 'listgroupBaoCaoFilter',
-      // 					'name': 'listgroupBaoCaoFilter',
-      // 					"type": "listgroup",
-      // 					"child_items": "items",
-      // 					"data_title": "title",
-      // 					"data_value": "id",
-      // 					"onLoad": "_initlistgroupBaoCaoFilter",
-      // 					"onClick": "filterChangeBaoCao",
-      // 					"events": {
-      // 						filterChangeBaoCao: function(item){
-      // 							var vm = this;
-      // 							vm.detailPage = false;
-      // 							vm.detailRegistPage = false;
-      // 							vm.listgroupTraCuuFilterselected = item.id;
-      // 							if ( item.id !== 'tra_cuu' ){
-      // 								vm.stageFilterView = item.id;
-      // 								vm.hoso_title_table = item.title;
-      // 							}
-
-      // 							if (item.id == 'tra_cuu_hoso') {
-      // 								vm._initraCuuHoSoTable(false);
-      // 								vm._initAdvanced_filter_serviceInfo();
-      // 								vm._initAdvanced_filter_loaiSanPham();
-      // 								vm._initAdvanced_filter_nhanHieu();
-
-      // 							} else if (item.id == 'tra_cuu_phuong_tien') {
-      // 								// TODO vm._inidanhSachHoSoTable(false);
-      // 							} else if (item.id == 'tra_cuu_thong_tin_doanh_nghiep') {
-      // 								vm._inithongTinDoanhNghiepTable(false);
-      // 							}
-
-      // 						},
-      // 						_initlistgroupBaoCaoFilter: function(){
-      // 							var vm = this;
-
-      // //							vm.listgroupBaoCaoFilterItems = [
-      // //							{
-      // //								id: 'tham_dinh_bao_cao',
-      // //								title: 'Thẩm định thiết kế'
-      // //							},
-      // //							{
-      // //								id: 'kiem_tra_san_pham_mau',
-      // //								title: 'Kiểm tra sản phẩm mẫu'
-      // //							},
-      // //							{
-      // //								id: 'danh_gia_cop',
-      // //								title: 'Đánh giá COP'
-      // //							}
-      // //							];
-
-      // 						}
-      // 					}
-      // 				},
       'keywordsSearchTraCuuHoSo': {
         'id': 'keywordsSearchTraCuuHoSo',
         'name': 'keywordsSearchTraCuuHoSo',
@@ -3653,153 +4232,6 @@ var funLoadVue = function(stateWindowParam, dossierIdParam, dossierPartNo, email
           }
         }
       },
-      // 'keywordsSearchDanhSachHoSo': {
-      // 	'id': 'keywordsSearchDanhSachHoSo',
-      // 	'name': 'keywordsSearchDanhSachHoSo',
-      // 	'type': 'text',
-      // 	'cssClass': 'pt-1',
-      // 	'placeholder': 'Tìm kiếm theo từ khoá...',
-      // 	'solo': true,
-      // 	'append_icon': 'search',
-      // 	'onKeyup': '_filterDanhSachHoSoKeyup($event)',
-      // 	'events': {
-      // 		_filterDanhSachHoSoKeyup: function (event) {
-      // 			var vm = this;
-      // 			if (event.keyCode === 13 || vm.keywordsSearchDanhSachHoSo.length > 3 || vm.keywordsSearchDanhSachHoSo.length === 0) {
-      // 				vm._inidanhSachHoSoTable(false);
-      // 			}
-
-      // 		}
-      // 	}
-      // },
-      // "serviceInfoFilter": {
-      // 	'id': 'serviceInfoFilter',
-      // 	'name': 'serviceInfoFilter',
-      // 	"type": "hidden",
-      // 	'label': 'Lựa chọn thủ tục hành chính ',
-      // 	"item_text": "serviceName",
-      // 	"item_value": "serviceCode",
-      // 	"single_line": true,
-      // 	"hide_selected": true,
-      // 	"multiple": false,
-      // 	"tags": false, //custom input not avaliable in select
-      // 	"chips": true,
-      // 	"deletable_chips": true,
-      // 	"loading": false,
-      // 	"no_data_text": "Lua chon selected",
-      // 	"items": [],
-      // 	"onLoad": "_initServiceInfoFilterData",
-      // 	"onChange": "_filterDanhSachHoSoOnchange($event)",
-      // 	"onRemove": "_filterDanhSachHoSoOnRemove",
-      // 	'onClick': '_filterDanhSachHoSoOnClear',
-      // 	"events": {
-      // _initServiceInfoFilterData: function(){
-      // 	var vm = this;
-
-      // 	//TODO: API
-      // 	var url = '/o/rest/v2/serviceinfos';
-
-      // 	axios.get(url, config).then(function (response) {
-      // 		var serializable = response.data;
-
-      // 		vm.serviceInfoFilterItems = serializable.data;
-
-      // 	})
-      // 	.catch(function (error) {
-      // 		// console.log(error);
-
-      // 	});
-      // 	return false;
-
-      // },
-      // 		_filterDanhSachHoSoOnchange: function(data){
-      // 			var vm = this;
-      // 			vm.serviceInfoFilter = data;
-      // 			vm._inidanhSachHoSoTable(false);
-      // 			vm.putStateUserInfo();
-      // 		},
-      // 		_filterDanhSachHoSoOnRemove: function(){
-      // 			var vm = this;
-      // 			vm.serviceInfoFilter = [];
-      // 			vm.putStateUserInfo();
-      // 			vm._inidanhSachHoSoTable(false);
-      // 		},
-      // 		_filterDanhSachHoSoOnClear: function(){
-      // 			this.serviceInfoFilter = [];
-      // 		}
-
-      // 	}
-      // },
-      // "applicantNameFilter": {
-      // 	'id': 'applicantNameFilter',
-      // 	'name': 'applicantNameFilter',
-      // 	"type": "select",
-      // 	'label': 'Chủ hồ sơ ',
-      // 	"item_text": "applicantName",
-      // 	"item_value": "applicantIdNo",
-      // 	"single_line": true,
-      // 	"hide_selected": true,
-      // 	"multiple": false,
-      // 	"tags": false, //custom input not avaliable in select
-      // 	"chips": true,
-      // 	"deletable_chips": true,
-      // 	"loading": false,
-      // 	"no_data_text": "Lua chon selected",
-      // 	"items": [],
-      // 	"onLoad": "_initApplicantNameFilterData",
-      // 	"onChange": "_applicantFilterDanhSachHoSoOnchange($event)",
-      // 	"onRemove": "_applicantFilterDanhSachHoSoOnRemove",
-      // 	'onClick': '_applicantFilterDanhSachHoSoOnClear',
-      // 	"events": {
-      // _initApplicantNameFilterData: function(){
-      // 	var vm = this;
-
-      // 	//TODO: API
-      // 	var url = '/o/rest/v2/applicants';
-
-      // 	axios.get(url, config).then(function (response) {
-      // 		var serializable = response.data;
-
-      // 		vm.applicantNameFilterItems = serializable.data;
-
-      // 	})
-      // 	.catch(function (error) {
-      // 		// console.log(error);
-
-      // 	});
-      // 	return false;
-      // },
-      // 		_applicantFilterDanhSachHoSoOnchange: function(data){
-      // 			var vm = this;
-      // 			vm.applicantNameFilter = data;
-      // 			vm._inidanhSachHoSoTable(false);
-      // 			vm.putStateUserInfo();
-      // 		},
-      // 		_applicantFilterDanhSachHoSoOnRemove: function(){
-      // 			var vm = this;
-      // 			vm.applicantNameFilter = [];
-      // 			vm._inidanhSachHoSoTable(false);
-      // 			vm.putStateUserInfo();
-      // 		},
-      // 		_applicantFilterDanhSachHoSoOnClear: function(){
-      // 			this.applicantNameFilter = [];
-      // 		}
-      // 	}
-      // },
-      // "dossierNoFilter": {
-      // 	'id': 'dossierNoFilter',
-      // 	'name': 'dossierNoFilter',
-      // 	"type": "text",
-      // 	'label': 'Nhập mã tiếp nhận (Số hồ sơ)',
-      // 	"onChange": "_filterDanhSachHoSoOnchange3",
-      // 	"events": {
-      // 		_filterDanhSachHoSoOnchange3: function(){
-      // 			var vm = this;
-      // 			vm._inidanhSachHoSoTable(false);
-      // 			vm.putStateUserInfo();
-      // 		}
-      // 	}
-      // },
       'thongTinDoanhNghiepTable': {
         'id': 'thongTinDoanhNghiepTable',
         'name': 'thongTinDoanhNghiepTable',
@@ -3893,15 +4325,6 @@ var funLoadVue = function(stateWindowParam, dossierIdParam, dossierPartNo, email
                 vm.thongTinDoanhNghiepTableItems = arrResult;
                 vm.thongTinDoanhNghiepTableTotal = Math.ceil(serializable.total / 15);
 
-                // temp fix header
-                // $('.thongTinDoanhNghiepTable__class th[role="columnheader"]').each(function( index ) {
-                // 	if ($( this ).attr('aria-label').indexOf("Activate") > 0) {
-                // 		$( this ).html($( this ).attr('aria-label').substring(0, $( this ).attr('aria-label').indexOf(":")).replace(/\./g,"<br/>") + ' <i aria-hidden="true" class="material-icons icon">arrow_upward</i>');
-                // 	} else {
-                // 		$( this ).html($( this ).attr('aria-label').substring(0, $( this ).attr('aria-label').indexOf(":")).replace(/\./g,"<br/>"));
-                // 	}
-                // });
-
               })
               .catch(function(error) {
                 // console.log(error);
@@ -3978,7 +4401,6 @@ var funLoadVue = function(stateWindowParam, dossierIdParam, dossierPartNo, email
           },
           parseDate(date) {
             if (!date) return null;
-
             const [year, month, day] = date.split('-');
             return `${day}/${month}/${year}`;
           },
@@ -4038,8 +4460,6 @@ var funLoadVue = function(stateWindowParam, dossierIdParam, dossierPartNo, email
               })
           },
           registrationPheDuyet: function(registrationState) {
-
-
             var vm = this;
             vm.stateButtonregistration = false;
             var defaultMessage = 'Đồng ý phê duyệt hồ sơ doanh nghiệp này?';
@@ -4250,8 +4670,6 @@ var funLoadVue = function(stateWindowParam, dossierIdParam, dossierPartNo, email
                   paramsBuilder.keyword = query;
                   url = "/o/rest/v2/deliverables/agency/BGTVTCDKVN/type/" + loai_chung_chi;
                   method = "POST";
-
-
                 }
 
               } else {
@@ -4294,44 +4712,6 @@ var funLoadVue = function(stateWindowParam, dossierIdParam, dossierPartNo, email
                   vm.xem_them = 'Tổng số ( ' + serializable.total + ' ) bản ghi'
                 }
                 vm.viewmore = false;
-
-                // temp fix header
-                // $('.danhSachHoSoTable__class th[role="columnheader"]').each(function( index ) {
-                // 	if ($( this ).attr('aria-label').indexOf("Activate") > 0) {
-                // 		$( this ).html($( this ).attr('aria-label').substring(0, $( this ).attr('aria-label').indexOf(":")).replace(/\./g,"<br/>") + ' <i aria-hidden="true" class="material-icons icon">arrow_upward</i>');
-                // 	} else {
-                // 		$( this ).html($( this ).attr('aria-label').substring(0, $( this ).attr('aria-label').indexOf(":")).replace(/\./g,"<br/>"));
-                // 	}
-                // });
-
-                /*var resData = serializable.data;
-                if(resData){
-                	for (var i = 0; i < resData.length; i++) {
-                		var deliverableId = resData[i].deliverableId;
-                		// console.log("deliverableId======",deliverableId);
-                		if(deliverableId){
-                			$.ajax({
-                				url : "/o/rest/v2/deliverables/"+deliverableId+"/formdata",
-                				dataType : "json",
-                				type : "GET",
-                				headers: {"groupId": themeDisplay.getScopeGroupId()},
-                				async : false,
-                				success : function(result){
-                					$("#ma_ho_so"+deliverableId).html(result.ma_ho_so);
-                					$("#so_ho_so"+deliverableId).html(result.so_ho_so);
-                					$("#ngay_gui"+deliverableId).html(result.ngay_gui);
-                					$("#ngay_tiep_nhan"+deliverableId).html(result.ngay_tiep_nhan);
-                					$("#so_chung_chi"+deliverableId).html(result.so_chung_chi);
-                					$("#ngay_ky_cc"+deliverableId).html(result.ngay_ky_cc);
-                				},
-                				error : function(result){
-
-                				}
-                			});
-                		}
-
-                	}
-                }*/
               },
               error: function(result) {
                 // console.log(result);
@@ -4517,6 +4897,8 @@ var funLoadVue = function(stateWindowParam, dossierIdParam, dossierPartNo, email
             var agenciesTmp = '';
             if (vm.govAgencySearch) {
               agenciesTmp = vm.govAgencySearch
+            } else if (vm.govAgencySearch2) {
+              agenciesTmp = vm.govAgencySearch2
             } else {
               agenciesTmp = agencies
             }
@@ -4533,14 +4915,21 @@ var funLoadVue = function(stateWindowParam, dossierIdParam, dossierPartNo, email
               end: vm.danhSachHoSoTablepage * 15,
               status: statusParam,
               substatus: substatusParam,
-              startDate: vm.parseDate(vm.startDate),
-              endDate: vm.parseDate(vm.endDate),
+              fromSubmitDate: vm.startDate,
+              toSubmitDate: vm.endDate,
               sort: 'modified',
-              order: 'false'
+              order: 'true'
             };
 
+            if (substatusParam === 'receiving_1') {
+              paramsBuilder.order = 'false'
+            }
 
-
+            if (vm.yearSearch) {
+              // paramsBuilder['year'] = vm.yearSearch
+              paramsBuilder['fromSubmitDate'] = '01/01/' + vm.yearSearch
+              paramsBuilder['toSubmitDate'] = '31/12/' + vm.yearSearch
+            }
             // if ( vm.keywordFilter != null ) {
             // 	paramsBuilder['keyword'] = vm.keywordFilter;
             // } else {
@@ -4580,11 +4969,12 @@ var funLoadVue = function(stateWindowParam, dossierIdParam, dossierPartNo, email
                   }
 
                   vm.danhSachHoSoTableTotal = Math.ceil(serializable.total / 15);
-
+                  vm.totalDSHS = serializable.total;
                 } else {
                   vm.danhSachHoSoTableItems = [];
                   vm.loadingDanhSachHoSoTable = false;
                   vm.danhSachHoSoTableTotal = 0;
+                  vm.totalDSHS = 0;
                 }
 
                 if (vm.listgroupHoSoFilterselectedIndex >= 0) {
@@ -4600,61 +4990,11 @@ var funLoadVue = function(stateWindowParam, dossierIdParam, dossierPartNo, email
               })
               .catch(function(error) {
                 // console.log(error);
+                vm.totalDSHS = 0;
                 vm.danhSachHoSoTableItems = [];
                 vm.loadingDanhSachHoSoTable = false;
 
               });
-
-            // 	var todoUrl = '/o/rest/v2/statistics/dossiers/todo';
-            // 	vm.loadingMenuList = true;
-            // 	$.ajax({
-            // 		url : todoUrl,
-            // 		dataType : "json",
-            // 		type : "GET",
-            // 		headers : {
-            // 			'groupId': themeDisplay.getScopeGroupId(),
-            // 			'Cache-Control' : 'no-cache'
-            // 		},
-            // 		data: {
-            // 			service: vm.serviceInfo,
-            // 			agency: agencies
-            // 		},
-            // 		success : function(result){
-            // 			var serializable = result;
-
-            // 			var indexTree = -1;
-            // 			var index = 0;
-            // 			for (var key in serializable.data) {
-            // 				for(var i in vm.listgroupHoSoFilterItems){
-            // 					if ( serializable.data[key].level === 0) {
-
-            // 						if (serializable.data[key].dossierStatus === 'cancelling' ||
-            // 							serializable.data[key].dossierStatus === 'cancelled' ||
-            // 							serializable.data[key].dossierStatus === 'processing' ||
-            // 							serializable.data[key].dossierStatus === 'paid') {
-            // 							serializable.data[key].items = [];
-
-            // 						if(serializable.data[key].dossierStatus === vm.listgroupHoSoFilterItems[i].id){
-            // 							vm.listgroupHoSoFilterItems[i].count = serializable.data[key].count;
-            // 						}
-            // 					}
-
-            // 				} else {
-
-            // 					if(serializable.data[key].dossierSubStatus === vm.listgroupHoSoFilterItems[i].id){
-            // 						vm.listgroupHoSoFilterItems[i].count = serializable.data[key].count;
-            // 					}
-            // 				}
-            // 			}
-
-            // 		}
-            // 		vm.loadingMenuList = false;
-            // 	},
-            // 	error : function(result){
-            // 		vm.loadingMenuList = false;
-            // 	}
-            // });
-
             return false;
           },
           getDictItemPartNo() {
